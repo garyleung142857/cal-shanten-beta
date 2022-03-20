@@ -97,3 +97,13 @@ export const tilesToHand = (tilesArr) => {
 
   return hand
 }
+
+export const rulesNames = [
+  'Menzu',
+  'HK',
+  'Riichi',
+  'ZungJung',
+  'MCR',
+  'Taiwan',
+  'HKTW'
+]

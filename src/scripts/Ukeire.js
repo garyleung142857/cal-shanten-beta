@@ -99,8 +99,9 @@ const analyze1 = (hand) => {
   }
   return {
     shanten: originalShanten,
-    // improvedUkerie: ukeireImprovment,
+    // improvedUkeire: ukeireImprovment,
     ukeire: thisUkeire.totalUkeire,
+    ukeireList: thisUkeire.ukeireList,
     avgWithImprovment: totalUkeire / totalTiles,
     avgNextUkeire: nextShantenUkeire / nextShantenTiles
   }

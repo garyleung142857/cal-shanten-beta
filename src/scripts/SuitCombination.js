@@ -87,7 +87,9 @@ const removeGroups = (i = 0) => {
   if(i > suit.length){return groups}
 
   // skip to index with existing tile
-  for(; i < suit.length && suit[i] == 0; i++){}
+  for(; i < suit.length && suit[i] == 0; i++){
+    //empty
+  }
 
   // triplet
   if(suit[i] >= 3){
@@ -126,7 +128,9 @@ const removeTaatsus = (i = 0) => {
   // already optimal. Short circuiting
 
   // skip to index with existing tile
-  for(; i < suit.length && suit[i] == 0; i++){}
+  for(; i < suit.length && suit[i] == 0; i++){
+    //empty
+  }
 
   // Pair
   if(suit[i] >= 2){

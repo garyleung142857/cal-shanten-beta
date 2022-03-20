@@ -1,4 +1,4 @@
-import { calUkeire } from './Ukerie.js';
+import { calUkeire } from './Ukeire.js';
 import { sumHand, tilesToHand, suitStrsToHand } from './Helper.js';
 
 
@@ -16,12 +16,26 @@ const queryHand = (hand, ruleName) => {
 
 
 export const tilesQuery = (tiles, ruleName) => {
-  const hand = tilesToHand(tiles)
-  return queryHand(hand, ruleName)
+  return new Promise((resolve, reject) => {
+    const hand = tilesToHand(tiles)
+    const result = queryHand(hand, ruleName)
+    if (result['error']){
+      reject(result['error'])
+    } else {
+      resolve(result)
+    }
+  })
 }
 
 
 export const suitStrsQuery = (suitStrs, ruleName) => {
-  const hand = suitStrsToHand(suitStrs)
-  return queryHand(hand, ruleName)
+  return new Promise((resolve, reject) => {
+    const hand = suitStrsToHand(suitStrs)
+    const result = queryHand(hand, ruleName)
+    if (result['error']){
+      reject(result['error'])
+    } else {
+      resolve(result)
+    }
+  })
 }
