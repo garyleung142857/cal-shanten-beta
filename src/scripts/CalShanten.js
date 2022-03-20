@@ -112,7 +112,7 @@ const calShantenSevenPairs = (hand) => {
 
   hand.forEach(suit => {
     suit.forEach(tileCount => {
-      if(tileCount == 2){
+      if(tileCount == 2 || tileCount == 3){
         pairs++
       }
       if(tileCount == 4){
