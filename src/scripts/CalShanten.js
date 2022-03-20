@@ -258,6 +258,13 @@ const calShantenSapSaamJiu = (hand) => {
     [0, 0, 0, 0, 0, 0, 0]
   ]  // for optimizing by checking which pair to use
 
+  let lentTerminals = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0]
+  ]  // for restoring the hand
+
   for (let i = 0; i < 4; i++){
     for (let j = 0; j < hand[i].length; j++){
       if(kokushiMasks[i][j] && hand[i][j]){
@@ -265,6 +272,7 @@ const calShantenSapSaamJiu = (hand) => {
         if(hand[i][j] >= 2){
           terminalPairs[i][j] = 1
         }
+        lentTerminals[i][j]++
         hand[i][j]--
       }
     }
@@ -287,6 +295,13 @@ const calShantenSapSaamJiu = (hand) => {
         hand[i][j]++
         hand[3].pop()
       }
+    }
+  }
+
+  // reset the hand
+  for (let i = 0; i < 4; i++){
+    for (let j = 0; j < hand[i].length; j++){
+      hand[i][j] += lentTerminals[i][j]
     }
   }
 

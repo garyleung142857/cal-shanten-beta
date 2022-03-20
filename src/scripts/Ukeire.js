@@ -112,20 +112,25 @@ const analyze2 = (hand) => {
   const originalShanten = calRule(hand)
   let analysis = emptyHand()
   // let bestUkeireImprovment = 0
-
-  for (let i = 0; i < 4; i++){
-    for (let j = 0; j < FULLSET[i].length; j++){
-      if(hand[i][j] > 0){
-        hand[i][j]--
-        const newAnalysis = analyze1(hand)
-        analysis[i][j] = newAnalysis
-        hand[i][j]++
+  if(originalShanten >= 0){
+    for (let i = 0; i < 4; i++){
+      for (let j = 0; j < FULLSET[i].length; j++){
+        if(hand[i][j] > 0){
+          hand[i][j]--
+          const newAnalysis = analyze1(hand)
+          analysis[i][j] = newAnalysis
+          hand[i][j]++
+        }
       }
     }
-  }
-  return {
-    shanten: originalShanten,
-    tiles: reduceHand(analysis, true)
+    return {
+      shanten: originalShanten,
+      tiles: reduceHand(analysis, true)
+    }
+  }else {
+    return {
+      shanten: -1
+    }
   }
 }
 
