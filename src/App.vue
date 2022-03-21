@@ -53,7 +53,6 @@ export default {
         this.error = null
         if (this.queryResults['tiles']){
           this.tiles = this.queryResults['tiles']
-          this.sortTiles()
         } else {
           this.tiles = [{tile: null, analysis: this.queryResults}]
         }
@@ -64,26 +63,6 @@ export default {
         this.queryResults = null
       })
     },
-    sortTiles: function(){
-      if(this.tiles.length > 1){
-        this.tiles.sort(
-          function(a, b){
-            const aa = a.analysis
-            const bb = b.analysis
-            if(aa.shanten == bb.shanten){
-              if(aa.ukeire == bb.ukeire){
-                if(aa.avgWithImprovment == bb.avgWithImprovment){
-                  return aa.avgNextUkeire > bb.avgNextUkeire ? -1 : 1
-                }
-                return aa.avgWithImprovment > bb.avgWithImprovment ? -1 : 1
-              }
-              return aa.ukeire > bb.ukeire ? -1 : 1
-            }
-            return aa.shanten > bb.shanten ? 1 : -1
-          }
-        )
-      }
-    }
   }
 }
 </script>

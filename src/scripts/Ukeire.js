@@ -123,15 +123,34 @@ const analyze2 = (hand) => {
         }
       }
     }
+    const tiles = reduceHand(analysis, true)
+    const sortedTiles = tiles.sort(sortFunc)
+
     return {
       shanten: originalShanten,
-      tiles: reduceHand(analysis, true)
+      tiles: sortedTiles
     }
   }else {
     return {
       shanten: -1
     }
   }
+}
+
+
+const sortFunc = (a, b) => {
+  const aa = a.analysis
+  const bb = b.analysis
+  if(aa.shanten == bb.shanten){
+    if(aa.ukeire == bb.ukeire){
+      if(aa.avgWithImprovment == bb.avgWithImprovment){
+        return aa.avgNextUkeire > bb.avgNextUkeire ? -1 : 1
+      }
+      return aa.avgWithImprovment > bb.avgWithImprovment ? -1 : 1
+    }
+    return aa.ukeire > bb.ukeire ? -1 : 1
+  }
+  return aa.shanten > bb.shanten ? 1 : -1
 }
 
 
