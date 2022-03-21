@@ -1,4 +1,4 @@
-import { calOptimalSuitCombination } from './SuitCombination.js'
+import { calOptimalSuitCombination, suitToStr } from './SuitCombination.js'
 import { applyMaskSuitPair, applyMaskSuitResidual, masks } from './Masking.js'
 
 
@@ -207,6 +207,8 @@ const calShantenLikgu = (hand) => {
 }
 
 
+export let batDaapMap = new Map()
+
 const calShantenBatDaap = (hand) => {
   if (handLength(hand) < 16 || handLength(hand) > 17) return Infinity
   // 16 tiles, 16 kinds tiles forming no taatsus. One kind consisting of a pair
@@ -215,16 +217,24 @@ const calShantenBatDaap = (hand) => {
   for (let i = 0; i < 3; i++){
     let bestMatch = 0
     let pairExistsSuit = false
-    masks.batDaapPlain.forEach(mask => {
-      const [matchesMask, pairExistsMask] = applyMaskSuitPair(hand[i], mask)
-      if (matchesMask > bestMatch){
-        bestMatch = matchesMask
-        pairExistsSuit = false
-      }
-      if (matchesMask == bestMatch && pairExistsMask){
-        pairExistsSuit = true
-      }
-    })
+    const suitStr = suitToStr(hand[i], false)
+    var record = batDaapMap.get(suitStr)
+    if(record){
+      [bestMatch, pairExistsSuit] = record
+    } else {
+      masks.batDaapPlain.forEach(mask => {
+        const [matchesMask, pairExistsMask] = applyMaskSuitPair(hand[i], mask)
+        if (matchesMask > bestMatch){
+          bestMatch = matchesMask
+          pairExistsSuit = false
+        }
+        if (matchesMask == bestMatch && pairExistsMask){
+          pairExistsSuit = true
+        }
+      })
+
+      batDaapMap.set(suitStr, [bestMatch, pairExistsSuit])
+    }
 
     matches += bestMatch
     pairExists = pairExistsSuit || pairExists
@@ -270,7 +280,6 @@ const calShantenSapSaamJiu = (hand) => {
         if(hand_[i][j] >= 2){
           terminalPairs[i][j] = 1
         }
-        // lentTerminals[i][j]++
         hand_[i][j]--
       }
     }

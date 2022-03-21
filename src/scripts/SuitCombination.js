@@ -14,9 +14,9 @@ let maxGroups  // running max
 let maxTaatsus  // running max
 let maxTaatsusWithPair  // running max
 
+let suitMap = new Map()
 
-export let suitMap = new Map()
-const suitToStr = (suit, isHonour) => {
+export const suitToStr = (suit, isHonour) => {
   let s = ''
   if (isHonour){
     // Honours start with 0, then number of singletons, pairs, sets, and quads
