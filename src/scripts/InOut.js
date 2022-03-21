@@ -1,13 +1,16 @@
 import { calUkeire } from './Ukeire.js';
-import { sumHand, tilesToHand, suitStrsToHand } from './Helper.js';
+import { tilesToHand, suitStrsToHand, checkHand } from './Helper.js';
 
 
 const queryHand = (hand, ruleName) => {
-  const handLen = sumHand(hand)
+  let state = null
+  try{
+    state = checkHand(hand, ruleName)
+  } catch (e) {
+    return { error: e }
+  }
   calUkeire.setCalRule(ruleName)
-  if (handLen % 3 == 0){
-    return { error: `Error: Hand contains ${handLen} tiles` }
-  } else if (handLen % 3 == 1){
+  if (state == 'To draw'){
     return calUkeire.analyze1(hand)
   } else {
     return calUkeire.analyze2(hand)

@@ -22,8 +22,13 @@
       subtitle: function(){
         let s = ''
         if (this.analysis.shanten == 0){
-          s += `聽牌 ${this.analysis.ukeireList} ${this.analysis.ukeire}張`
-          return s
+          if (this.analysis.ukeire > 0){
+            s += `聽牌 ${this.analysis.ukeireList} ${this.analysis.ukeire}張`
+            return s
+          } else {
+            s += `空聽`
+            return s
+          }
         } else {
           s += `${this.analysis.shanten}向聽 入章${this.analysis.ukeire}張 ${this.analysis.ukeireList}`
           return s

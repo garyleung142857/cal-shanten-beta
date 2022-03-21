@@ -98,6 +98,26 @@ export const tilesToHand = (tilesArr) => {
   return hand
 }
 
+export const checkHand = (hand, ruleName) =>{
+  const handLen = sumHand(hand)
+  if (handLen % 3 == 0 || handLen > rulesMax[ruleName]){
+    throw `Error: Hand contains ${handLen} tiles`
+  } else {
+    for (let i = 0; i < 4; i++){
+      for (let j = 0; j < hand[i].length; j++){
+        if (hand[i][j] > 4){
+          throw `Error: Tile ${tileNames[i][j]} contains ${hand[i][j]} copies.`
+        }
+      }
+    }
+  }
+  if (handLen % 3 == 1){
+    return 'To draw'
+  } else {
+    return 'To play'
+  }
+}
+
 export const rulesNames = [
   'Menzu',
   'HK',
@@ -107,3 +127,13 @@ export const rulesNames = [
   'Taiwan',
   'HKTW'
 ]
+
+export const rulesMax = {
+  'Menzu': Infinity,
+  'HK': 14,
+  'Riichi': 14,
+  'ZungJung': 14,
+  'MCR': 14,
+  'Taiwan': 17,
+  'HKTW': 17
+}
