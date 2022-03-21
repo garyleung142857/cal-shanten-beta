@@ -39,9 +39,8 @@
         } else {
           if(this.analysis.avgWithImprovment > this.analysis.ukeire){
             s += `改良平均${this.analysis.avgWithImprovment.toFixed(2)}張 `
-            s += `入章後，下一向聽平均入章${this.analysis.avgNextUkeire.toFixed(2)}張`
           }
-          
+          s += `下一向聽平均入章${this.analysis.avgNextUkeire.toFixed(2)}張`
           return s
         }
       }
