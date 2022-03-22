@@ -2,6 +2,9 @@
   <v-app id="app">
     <h1> 向聽入章計算機 </h1>
     <h3> Beta </h3>
+    <p> 支援多種和牌牌型(面子手、香港、日本、中庸、國標、台灣、港式台灣)</p>
+    <p> 考慮改良數、及進張後，平均下一向聽進張數</p>
+    <p> 不考慮翻數、防守、牌河、或鳴牌 </p>
     <InputForm @handle-query="handleQuery"></InputForm>
     <v-alert
       v-if="error"
