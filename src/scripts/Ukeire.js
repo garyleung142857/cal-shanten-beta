@@ -149,7 +149,7 @@ const speedRef = (aa) => {
     const q2 = 1 - p2
     const q1 = 1 - p1
     // probability of advancing twice in leftTurns turns (approximate)
-    const result = (1 - Math.pow(q2, leftTurns)) - p2 * Math.pow(q1, leftTurns) * (1 - Math.pow(q2 / q1, leftTurns)) / (q1 - q2)
+    const result = 1 - (p2 * Math.pow(q1, leftTurns) - p1 * Math.pow(q2, leftTurns)) / (q1 - q2)
     speed = result * 100
   }
 
