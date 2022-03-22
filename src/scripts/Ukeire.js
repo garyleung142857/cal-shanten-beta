@@ -137,18 +137,32 @@ const analyze2 = (hand) => {
   }
 }
 
+const speedRef = (aa) => {
+  let speed
+  if (aa.ukeire == 0 || aa.avgNextUkeire == 0){
+    speed = 0
+  } else {
+    const leftCount = 120
+    const leftTurns = 10
+    const p2 = aa.ukeire / leftCount
+    const p1 = aa.avgNextUkeire / leftCount
+    const q2 = 1 - p2
+    const q1 = 1 - p1
+    // probability of advancing twice in leftTurns turns (approximate)
+    const result = (1 - Math.pow(q2, leftTurns)) - p2 * Math.pow(q1, leftTurns) * (1 - Math.pow(q2 / q1, leftTurns)) / (q1 - q2)
+    speed = result * 100
+  }
+
+  aa.speedRef = speed
+  return speed
+}
+
 
 const sortFunc = (a, b) => {
   const aa = a.analysis
   const bb = b.analysis
   if(aa.shanten == bb.shanten){
-    if(aa.ukeire == bb.ukeire){
-      if(aa.avgWithImprovment == bb.avgWithImprovment){
-        return aa.avgNextUkeire > bb.avgNextUkeire ? -1 : 1
-      }
-      return aa.avgWithImprovment > bb.avgWithImprovment ? -1 : 1
-    }
-    return aa.ukeire > bb.ukeire ? -1 : 1
+    return speedRef(aa) > speedRef(bb) ? -1 : 1
   }
   return aa.shanten > bb.shanten ? 1 : -1
 }
