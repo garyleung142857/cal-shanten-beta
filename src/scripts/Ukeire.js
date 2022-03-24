@@ -70,6 +70,23 @@ const ukeire2 = (hand) => {
 }
 
 
+const speedRef = (ukeire, avgNextUkeire) => {
+  if (ukeire == 0 || avgNextUkeire == 0){
+    return 0
+  } else {
+    const leftCount = 120
+    const leftTurns = 10
+    const p2 = ukeire / leftCount
+    const p1 = avgNextUkeire / leftCount
+    const q2 = 1 - p2
+    const q1 = 1 - p1
+    // probability of advancing twice in leftTurns turns (approximate)
+    const result = 1 - (p2 * Math.pow(q1, leftTurns) - p1 * Math.pow(q2, leftTurns)) / (q1 - q2)
+    return result * 100
+  }
+}
+
+
 const analyze1 = (hand) => {
   let totalTiles = 0
   let totalUkeire = 0
@@ -97,13 +114,18 @@ const analyze1 = (hand) => {
       }
     }
   }
+
+  const avgNextUkeire = nextShantenUkeire / nextShantenTiles
+  const speed = speedRef(thisUkeire.totalUkeire, avgNextUkeire)
+
   return {
     shanten: originalShanten,
     // improvedUkeire: ukeireImprovment,
     ukeire: thisUkeire.totalUkeire,
     ukeireList: thisUkeire.ukeireList,
     avgWithImprovment: totalUkeire / totalTiles,
-    avgNextUkeire: nextShantenUkeire / nextShantenTiles
+    avgNextUkeire: avgNextUkeire,
+    speedRef: speed
   }
 }
 
@@ -137,26 +159,6 @@ const analyze2 = (hand) => {
   }
 }
 
-const speedRef = (aa) => {
-  let speed
-  if (aa.ukeire == 0 || aa.avgNextUkeire == 0){
-    speed = 0
-  } else {
-    const leftCount = 120
-    const leftTurns = 10
-    const p2 = aa.ukeire / leftCount
-    const p1 = aa.avgNextUkeire / leftCount
-    const q2 = 1 - p2
-    const q1 = 1 - p1
-    // probability of advancing twice in leftTurns turns (approximate)
-    const result = 1 - (p2 * Math.pow(q1, leftTurns) - p1 * Math.pow(q2, leftTurns)) / (q1 - q2)
-    speed = result * 100
-  }
-
-  aa.speedRef = speed
-  return speed
-}
-
 
 const sortFunc = (a, b) => {
   const aa = a.analysis
@@ -168,7 +170,7 @@ const sortFunc = (a, b) => {
     return aa.ukeire > bb.ukeire ? -1 : 1
   }
   if(aa.shanten == bb.shanten){
-    return speedRef(aa) > speedRef(bb) ? -1 : 1
+    return aa.speedRef > bb.speedRef ? -1 : 1
   }
   return aa.shanten > bb.shanten ? 1 : -1
 }
