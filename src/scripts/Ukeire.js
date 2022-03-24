@@ -161,6 +161,12 @@ const speedRef = (aa) => {
 const sortFunc = (a, b) => {
   const aa = a.analysis
   const bb = b.analysis
+  if(aa.shanten == 0 && bb.shanten == 0){
+    if (aa.ukeire == bb.ukeire){
+      return aa.avgWithImprovment > bb.avgWithImprovment ? -1 : 1
+    }
+    return aa.ukeire > bb.ukeire ? -1 : 1
+  }
   if(aa.shanten == bb.shanten){
     return speedRef(aa) > speedRef(bb) ? -1 : 1
   }
