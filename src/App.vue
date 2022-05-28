@@ -8,6 +8,7 @@
       @removeLastTile="removeLastTile"
       @clearAll="clearAll"
       @submitQuery="handleQuery"
+      @ruleChange="(ruleName) => this.ruleName=ruleName"
     />
     <v-alert
       v-if="error"

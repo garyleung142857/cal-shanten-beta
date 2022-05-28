@@ -39,7 +39,13 @@
         <v-btn class="suit-btn pa-1 ma-1" @click="clearAll()">清除</v-btn>
       </v-row>
       <v-row dense class="d-flex">
-        <v-btn block class="submit-btn pa-1 ma-1" @click="submitQuery()">計算</v-btn>
+        <v-select class="rule-select pa-1 ma-1"
+          v-model="curRule"
+          :items="r"
+          :append-icon="null"
+          dense hide-details
+        />
+        <v-btn class="suit-btn pa-1 ma-1" @click="submitQuery()">計算</v-btn>
       </v-row>
     </v-card>
   </v-card>
@@ -47,6 +53,7 @@
 <script>
   import TileButton from '@/components/TileButton.vue'
   import LAYERS from '@/constants/KeyboardPattern.js'
+  import { rulesNames } from '@/scripts/Helper.js'
   export default {
     name: 'TileKeyboard',
     components: {
@@ -54,7 +61,14 @@
     },
     data(){
       return {
-        curSuit: 'man'
+        curSuit: 'man',
+        curRule: 'Menzu',
+        r: rulesNames,
+      }
+    },
+    watch: {
+      curRule(nv){
+        this.$emit('ruleChange', nv)
       }
     },
     computed: {
@@ -85,15 +99,18 @@
 <style scoped>
   .suit-btn{
     text-transform: unset !important;
-    width: 30px;
     justify-content: center;
     align-items: center;
     position: relative;
     height: unset !important;
   }
-  .submit-btn{
-    width: 60px;
-    min-width: unset !important;
+  .rule-select{
     height: unset !important;
+    width: 64px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: small;
+    text-align: center;
   }
 </style>

@@ -132,13 +132,13 @@ export const sortHand = (hand) => {
 
 
 export const rulesNames = [
-  'Menzu',
-  'HK',
-  'Riichi',
-  'ZungJung',
-  'MCR',
-  'Taiwan',
-  'HKTW'
+  {text: '面子', value: 'Menzu'},
+  {text: '舊章', value: 'HK'},
+  {text: '日本', value: 'Riichi'},
+  {text: '中庸', value: 'ZungJung'},
+  {text: '國標', value: 'MCR'},
+  {text: '台灣', value: 'Taiwan'},
+  {text: '港台', value: 'HKTW'}
 ]
 
 export const rulesMax = {
