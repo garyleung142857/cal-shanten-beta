@@ -4,7 +4,11 @@
     class="hand d-flex ma-0 flex-wrap"
     width="100%"
   >
-    <TileImage v-for="(tn, idx) in hand" :tileName="tn" :key="idx"/>
+    <TileImage v-for="(tn, idx) in hand" :key="idx"
+      :tileName="tn"
+      @tileFaceClick="() => tileFaceClick(idx)"
+      class="hand-tile"
+    />
   </v-card>
 </template>
 <script>
@@ -17,6 +21,11 @@
     props: {
       hand: {type: Array, default: () => []}
     },
+    methods: {
+      tileFaceClick(idx){
+        this.$emit('tileFaceClick', idx)
+      }
+    }
   }
 </script>
 
@@ -27,5 +36,8 @@
     align-items: center;
     border: 1px black solid;
     line-height: 1.15;
+  }
+  .hand-tile:hover{
+    cursor: pointer;
   }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <span
     class="tileFace"
+    @click="tileFaceClick"
   >
     {{tileChar}}
   </span>
@@ -22,6 +23,11 @@
       tileChar(){
         return tileMap[this.tileName]
       }
+    },
+    methods: {
+      tileFaceClick(){
+        this.$emit('tileFaceClick', this.tileName)
+      }
     }
   }
 </script>
@@ -33,6 +39,7 @@
     font-size: 48px;
     font-family: 'Mahjong';
     text-align: center;
+    margin: 2px;
   }
 
 </style>

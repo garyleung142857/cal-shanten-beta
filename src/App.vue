@@ -2,7 +2,7 @@
   <v-app id="app">
     <h1> 向聽入章計算機 </h1>
 
-    <TileHand :hand="hand"/>
+    <TileHand :hand="hand" @tileFaceClick="(idx) => removeTile(idx)" />
     <InputKeyboard
       @inputTile="(tileName) => inputTile(tileName)"
       @removeLastTile="removeLastTile"
@@ -82,6 +82,9 @@ export default {
     },
     removeLastTile(){
       this.hand.pop()
+    },
+    removeTile(idx){
+      this.hand = this.hand.filter((item, i) => i !== idx)
     }
   }
 }
