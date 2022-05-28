@@ -1,11 +1,9 @@
 <template>
   <v-app id="app">
     <h1> 向聽入章計算機 </h1>
-    <h3> Beta </h3>
-    <p> 支援多種和牌牌型(面子手、香港、日本、中庸、國標、台灣、港式台灣)</p>
-    <p> 考慮改良數、及進張後，平均下一向聽進張數</p>
-    <p> 不考慮翻數、防守、牌河、或鳴牌 </p>
-    <InputForm @handle-query="handleQuery"></InputForm>
+
+    <TileHand />
+    <InputKeyboard />
     <v-alert
       v-if="error"
       color="red"
@@ -29,14 +27,16 @@
 </template>
 
 <script>
-import InputForm from './components/InputForm.vue'
 import SingleResult from './components/SingleResult.vue'
+import TileHand from './components/TileHand.vue'
+import InputKeyboard from './components/InputKeyboard.vue'
 import { suitStrsQuery } from './scripts/InOut.js'
 export default {
   name: 'App',
   components: {
-    InputForm,
-    SingleResult
+    SingleResult,
+    TileHand,
+    InputKeyboard
   },
   data(){
     return {
@@ -76,7 +76,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  padding: 50px;
+  padding: 20px;
   max-width: 700px;
+}
+
+@font-face {
+  font-family: "Mahjong";
+  src: url(./fonts/S-Mahjong.ttf) format("truetype");
 }
 </style>
