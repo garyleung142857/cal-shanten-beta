@@ -11,16 +11,35 @@
     </v-card>
     <v-card flat class="pa-1 d-flex flex-column">
       <v-row dense class="d-flex" align-content="stretch">
-        <v-btn class="suit-btn pa-1 ma-1 flex-grow-1" @click="changeSuit('man')">萬</v-btn>
-        <v-btn class="suit-btn pa-1 ma-1" @click="changeSuit('pin')">筒</v-btn>
+        <v-btn 
+          class="suit-btn pa-1 ma-1" 
+          @click="changeSuit('man')"
+          :class="curSuit == 'man' ? 'primary' : null"
+        >萬子</v-btn>
+        <v-btn 
+          class="suit-btn pa-1 ma-1"
+          @click="changeSuit('pin')"
+          :class="curSuit == 'pin' ? 'primary' : null"
+        >筒子</v-btn>
       </v-row>
       <v-row dense class="d-flex">
-        <v-btn class="suit-btn pa-1 ma-1" @click="changeSuit('sou')">索</v-btn>
-        <v-btn class="suit-btn pa-1 ma-1" @click="changeSuit('zi')">字</v-btn>
+        <v-btn
+          class="suit-btn pa-1 ma-1"
+          @click="changeSuit('sou')"
+          :class="curSuit == 'sou' ? 'primary' : null"
+        >索子</v-btn>
+        <v-btn 
+          class="suit-btn pa-1 ma-1"
+          @click="changeSuit('zi')"
+          :class="curSuit == 'zi' ? 'primary' : null"
+        >字牌</v-btn>
       </v-row>
       <v-row dense class="d-flex">
-        <v-btn class="suit-btn pa-1 ma-1" @click="changeSuit('sou')">取消</v-btn>
-        <v-btn class="suit-btn pa-1 ma-1" @click="changeSuit('zi')">=</v-btn>
+        <v-btn class="suit-btn pa-1 ma-1" @click="removeLastTile()">取消</v-btn>
+        <v-btn class="suit-btn pa-1 ma-1" @click="clearAll()">清除</v-btn>
+      </v-row>
+      <v-row dense class="d-flex">
+        <v-btn block class="submit-btn pa-1 ma-1" @click="submitQuery()">計算</v-btn>
       </v-row>
     </v-card>
   </v-card>
@@ -40,10 +59,7 @@
     },
     computed: {
       curSuitLayout(){
-        if(LAYERS){
-          return LAYERS[this.curSuit]
-        }
-        return null
+        return LAYERS ? LAYERS[this.curSuit] : null
       }
     },
     methods: {
@@ -55,6 +71,9 @@
       },
       clearAll(){
         this.$emit('clearAll')
+      },
+      submitQuery(){
+        this.$emit('submitQuery')
       },
       changeSuit(suit){
         this.curSuit = suit
@@ -70,6 +89,11 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    height: unset !important;
+  }
+  .submit-btn{
+    width: 60px;
+    min-width: unset !important;
     height: unset !important;
   }
 </style>

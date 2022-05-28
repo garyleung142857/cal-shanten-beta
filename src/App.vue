@@ -2,8 +2,13 @@
   <v-app id="app">
     <h1> 向聽入章計算機 </h1>
 
-    <TileHand />
-    <InputKeyboard />
+    <TileHand :hand="hand"/>
+    <InputKeyboard
+      @inputTile="(tileName) => inputTile(tileName)"
+      @removeLastTile="removeLastTile"
+      @clearAll="clearAll"
+      @submitQuery="handleQuery"
+    />
     <v-alert
       v-if="error"
       color="red"
@@ -30,7 +35,8 @@
 import SingleResult from './components/SingleResult.vue'
 import TileHand from './components/TileHand.vue'
 import InputKeyboard from './components/InputKeyboard.vue'
-import { suitStrsQuery } from './scripts/InOut.js'
+import { tilesQuery } from './scripts/InOut.js'
+import { sortHand } from './scripts/Helper.js'
 export default {
   name: 'App',
   components: {
@@ -40,17 +46,19 @@ export default {
   },
   data(){
     return {
-      query: null,
+      // query: null,
+      hand: [],
+      ruleName: 'Menzu',
       queryResults: null,
       tiles: null,
       error: null,
     }
   },
   methods: {
-    handleQuery: function(query){
-      this.query = query
+    handleQuery(){
       this.overlay = true
-      suitStrsQuery(this.query.suitStrArr, this.query.ruleName)
+      sortHand(this.hand)
+      tilesQuery(this.hand, this.ruleName)
       .then(res => {
         this.queryResults = res
         this.error = null
@@ -66,6 +74,15 @@ export default {
         this.queryResults = null
       })
     },
+    inputTile(tileName){
+      this.hand.push(tileName)
+    },
+    clearAll(){
+      this.hand = []
+    },
+    removeLastTile(){
+      this.hand.pop()
+    }
   }
 }
 </script>
