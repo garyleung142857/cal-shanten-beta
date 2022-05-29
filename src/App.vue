@@ -1,9 +1,11 @@
 <template>
   <v-app id="app">
     <h1> 向聽入章計算機 (Beta) </h1>
-    <p> 支援多種和牌牌型(面子手、香港、日本、中庸、國標、台灣、港式台灣)</p>
-    <p> 考慮改良數、及進張後，平均下一向聽進張數</p>
-    <p> 不考慮翻數、防守、牌河、或鳴牌 </p>
+    <p>
+    <a 
+      href="https://github.com/garyleung142857/cal-shanten-beta"
+      target="_blank"
+    >關於</a></p>
     <InputKeyboard
       @inputTile="(tileName) => inputTile(tileName)"
       @removeLastTile="removeLastTile"
