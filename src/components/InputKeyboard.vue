@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="d-flex justify-start">
+  <v-card flat class="input-keyboard d-flex justify-start pa-2 mb-4">
     <v-card flat class="pa-1">
       <v-row v-for="(r, rowid) in curSuitLayout" :key="rowid" dense class="d-flex justify-end">
         <TileButton
@@ -11,32 +11,36 @@
     </v-card>
     <v-card flat class="pa-1 d-flex flex-column">
       <v-row dense class="d-flex" align-content="stretch">
-        <v-btn 
+        <v-btn
           class="suit-btn pa-1 ma-1" 
           @click="changeSuit('man')"
-          :class="curSuit == 'man' ? 'primary' : null"
+          :color="curSuit == 'man' ? 'orange lighten-2' : 'blue-grey lighten-3'"
+          depressed
         >萬子</v-btn>
         <v-btn 
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('pin')"
-          :class="curSuit == 'pin' ? 'primary' : null"
+          :color="curSuit == 'pin' ? 'orange lighten-2' : 'blue-grey lighten-3'"
+          depressed
         >筒子</v-btn>
       </v-row>
       <v-row dense class="d-flex">
         <v-btn
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('sou')"
-          :class="curSuit == 'sou' ? 'primary' : null"
+          :color="curSuit == 'sou' ? 'orange lighten-2' : 'blue-grey lighten-3'"
+          depressed
         >索子</v-btn>
         <v-btn 
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('zi')"
-          :class="curSuit == 'zi' ? 'primary' : null"
+          :color="curSuit == 'zi' ? 'orange lighten-2' : 'blue-grey lighten-3'"
+          depressed
         >字牌</v-btn>
       </v-row>
       <v-row dense class="d-flex">
-        <v-btn class="suit-btn pa-1 ma-1" @click="removeLastTile()">取消</v-btn>
-        <v-btn class="suit-btn pa-1 ma-1" @click="clearAll()">清除</v-btn>
+        <v-btn class="suit-btn pa-1 ma-1" outlined color="deep-orange" @click="removeLastTile()">取消</v-btn>
+        <v-btn class="suit-btn pa-1 ma-1" outlined color="red" @click="clearAll()">清除</v-btn>
       </v-row>
       <v-row dense class="d-flex">
         <v-select class="rule-select pa-1 ma-1"
@@ -44,8 +48,14 @@
           :items="r"
           :append-icon="null"
           dense hide-details
-        />
-        <v-btn class="suit-btn pa-1 ma-1" @click="submitQuery()">計算</v-btn>
+        >
+          <template v-slot:selection="{ item }">
+            <span class="d-flex justify-center" style="width: 100%;">
+              {{ item.text }}
+            </span>
+          </template>
+        </v-select>
+        <v-btn class="suit-btn pa-1 ma-1 primary" @click="submitQuery()">計算</v-btn>
       </v-row>
     </v-card>
   </v-card>
@@ -97,6 +107,10 @@
 </script>
 
 <style scoped>
+  .input-keyboard{
+    align-self: center;
+    border: 3px rgb(139, 122, 105) solid;
+  }
   .suit-btn{
     justify-content: center;
     align-items: center;

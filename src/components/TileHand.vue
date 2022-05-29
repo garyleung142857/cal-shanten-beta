@@ -1,7 +1,7 @@
 <template>
   <v-card
-    flat
-    class="hand d-flex ma-0 flex-wrap"
+    flat tile
+    class="hand d-flex ma-0 flex-wrap mb-4"
     width="100%"
   >
     <TileImage v-for="(tn, idx) in hand" :key="idx"
@@ -34,7 +34,8 @@
     min-height: 80px;
     justify-content: flex-start;
     align-items: center;
-    border: 1px black solid;
+    border-bottom: 5px rgb(100, 83, 67) solid;
+    background-color: rgb(238, 231, 222);
     line-height: 1.15;
   }
   .hand-tile:hover{

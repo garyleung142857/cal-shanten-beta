@@ -1,8 +1,9 @@
 <template>
   <v-btn
-    class="input-btn pa-1 ma-1"
+    class="input-btn pa-1 ma-0"
     height="60"
     @click="tileClicked"
+    text
   >
     <TileImage :tileName="tileName" button />
   </v-btn>

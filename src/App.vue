@@ -1,8 +1,9 @@
 <template>
   <v-app id="app">
-    <h1> 向聽入章計算機 </h1>
-
-    <TileHand :hand="hand" @tileFaceClick="(idx) => removeTile(idx)" />
+    <h1> 向聽入章計算機 (Beta) </h1>
+    <p> 支援多種和牌牌型(面子手、香港、日本、中庸、國標、台灣、港式台灣)</p>
+    <p> 考慮改良數、及進張後，平均下一向聽進張數</p>
+    <p> 不考慮翻數、防守、牌河、或鳴牌 </p>
     <InputKeyboard
       @inputTile="(tileName) => inputTile(tileName)"
       @removeLastTile="removeLastTile"
@@ -10,13 +11,14 @@
       @submitQuery="handleQuery"
       @ruleChange="(ruleName) => this.ruleName=ruleName"
     />
+    <TileHand :hand="hand" @tileFaceClick="(idx) => removeTile(idx)" />
     <v-alert
       v-if="error"
       color="red"
       type="error"
     > {{error}}
     </v-alert>
-    <template v-if="tiles">
+    <template v-if="queryResults">
       <h3>結果</h3>
       <template v-if="queryResults.shanten>=0">
         <template v-for="t in tiles">
@@ -80,6 +82,9 @@ export default {
     },
     clearAll(){
       this.hand = []
+      this.queryResults = null
+      this.tiles = null
+      this.error = null
     },
     removeLastTile(){
       this.hand.pop()
@@ -92,17 +97,25 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  padding: 20px;
-  max-width: 700px;
-}
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    background-color: rgb(252, 249, 243);
+    padding: 20px;
+    height: '100vh';
+    max-width: 700px;
+    min-width: 350px;
+    margin: auto;
+  }
 
-@font-face {
-  font-family: "Mahjong";
-  src: url(./fonts/S-Mahjong.ttf) format("truetype");
-}
+  p {
+    margin-bottom: 6px !important;
+  }
+
+  @font-face {
+    font-family: "Mahjong";
+    src: url(./fonts/S-Mahjong.ttf) format("truetype");
+  }
 </style>
