@@ -37,8 +37,8 @@
 
 <style scoped>
   .tileFace {
-    height: 64px;
-    line-height: 1;
+    height: 48px;
+    line-height: 0.6;
     font-size: 48px;
     font-family: 'Mahjong';
     text-align: center;
@@ -46,12 +46,12 @@
   }
   .tile-text {
     height: 36px;
-    font-size: 30px;
+    font-size: 36px;
     line-height: 0.8;
     margin: 0px;
   }
   .tile-button {
-    height: 80px;
+    height: 60px;
     font-size: 60px;
   }
 </style>

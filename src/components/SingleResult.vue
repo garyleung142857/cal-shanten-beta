@@ -1,10 +1,16 @@
 <template>
-  <v-card class="d-flex ma-1 pa-1 align-center">
+  <v-card 
+    class="d-flex ma-1 pa-1 align-center"
+    :color="bgColor"
+    :style="`border-left: 25px solid ${borderColor}`"
+    flat tile
+  >
     <TileImage v-if="tile"
       :tileName="tile"
       class="px-1"
+      
     />
-    <v-card-text class="pa-1">
+    <v-card-text class="pa-1 card-text">
       <div>
         {{text}}
       </div>
@@ -16,6 +22,7 @@
 </template>
 <script>
   import TileImage from '@/components/TileImage.vue'
+  import { interpolateColor } from '@/scripts/colorMixing.js'
   export default {
     name: 'SingleResult',
     components: {
@@ -54,7 +61,21 @@
       },
       text(){
         return this.textShanTen + ' ' + this.textUkeire + ' ' + this.textSpeed
+      },
+      bgColor(){
+        return interpolateColor(this.analysis.shanten - 1, this.analysis.avgNextUkeire, false)
+      },
+      borderColor(){
+        return interpolateColor(this.analysis.shanten, this.analysis.ukeire, true)
       }
     }
   }
 </script>
+
+<style scoped>
+  .card-text{
+    color: unset !important;
+    font-weight: 500;
+    font-size: 18px;
+  }
+</style>
