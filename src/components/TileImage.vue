@@ -1,6 +1,7 @@
 <template>
   <span
     class="tileFace"
+    :class="{'tile-text': text, 'tile-button': button}"
     @click="tileFaceClick"
   >
     {{tileChar}}
@@ -12,7 +13,9 @@
   export default {
     name: 'TileImage',
     props: {
-      tileName: {type: String}
+      tileName: {type: String},
+      text: {type: Boolean, default: false},
+      button: {type: Boolean, default: false}
     },
     data(){
       return {
@@ -34,12 +37,21 @@
 
 <style scoped>
   .tileFace {
-    height: 60px;
+    height: 64px;
     line-height: 1;
     font-size: 48px;
     font-family: 'Mahjong';
     text-align: center;
     margin: 2px;
   }
-
+  .tile-text {
+    height: 36px;
+    font-size: 30px;
+    line-height: 0.8;
+    margin: 0px;
+  }
+  .tile-button {
+    height: 80px;
+    font-size: 60px;
+  }
 </style>

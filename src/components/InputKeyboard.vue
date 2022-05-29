@@ -4,7 +4,7 @@
       <v-row v-for="(r, rowid) in curSuitLayout" :key="rowid" dense class="d-flex justify-end">
         <TileButton
           v-for="tn in r" :key="tn"
-          :tileName="tn" 
+          :tileName="tn"
           @tileClick="inputTile(tn)"
         />
       </v-row>
@@ -98,7 +98,6 @@
 
 <style scoped>
   .suit-btn{
-    text-transform: unset !important;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -110,7 +109,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    font-size: small;
+    font-size: smaller;
     text-align: center;
   }
 </style>

@@ -70,17 +70,17 @@ const ukeire2 = (hand) => {
 }
 
 
-const speedRef = (ukeire, avgNextUkeire) => {
+const speedRef = (ukeire, avgNextUkeire, leftTurns) => {
   if (ukeire == 0 || avgNextUkeire == 0){
     return 0
   } else {
     const leftCount = 120
-    const leftTurns = 10
     const p2 = ukeire / leftCount
     const p1 = avgNextUkeire / leftCount
     const q2 = 1 - p2
     const q1 = 1 - p1
     // probability of advancing twice in leftTurns turns (approximate)
+    // 1-shanten: 10 turns, 2-shanten: 3 turns
     const result = 1 - (p2 * Math.pow(q1, leftTurns) - p1 * Math.pow(q2, leftTurns)) / (q1 - q2)
     return result * 100
   }
@@ -116,7 +116,12 @@ const analyze1 = (hand) => {
   }
 
   const avgNextUkeire = nextShantenUkeire / nextShantenTiles
-  const speed = speedRef(thisUkeire.totalUkeire, avgNextUkeire)
+  let speed
+  if (originalShanten == 1){
+    speed = speedRef(thisUkeire.totalUkeire, avgNextUkeire, 10)
+  } else if (originalShanten == 2){
+    speed = speedRef(thisUkeire.totalUkeire, avgNextUkeire, 3)
+  }
 
   return {
     shanten: originalShanten,

@@ -4,7 +4,7 @@
     height="60"
     @click="tileClicked"
   >
-    <TileImage :tileName="tileName" />
+    <TileImage :tileName="tileName" button />
   </v-btn>
 </template>
 
