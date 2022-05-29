@@ -46,7 +46,7 @@
       },
       textUkeire(){
         let s = ''
-        s = this.isTenPai ? '聽' : '入章'
+        s = this.isTenPai ? `聽${this.analysis.ukeireList.length}門` : '入章'
         s += `${this.analysis.ukeire}`
         s += this.hasImprovment ? `(${this.analysis.avgWithImprovment.toFixed(2)})張 ` : '張 '
         s += this.isTenPai ? '' : `下一向聽平均入章${this.analysis.avgNextUkeire.toFixed(2)}張`
