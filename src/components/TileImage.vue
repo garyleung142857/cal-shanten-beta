@@ -53,5 +53,7 @@
   .tile-button {
     height: 60px;
     font-size: 60px;
+    padding: 1px;
+    overflow-x: hidden;
   }
 </style>
