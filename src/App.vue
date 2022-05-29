@@ -1,18 +1,24 @@
 <template>
   <v-app id="app">
-    <h1> 向聽入章計算機 </h1>
-    <h3> Beta </h3>
+    <h1> 向聽入章計算機 (Beta) </h1>
     <p> 支援多種和牌牌型(面子手、香港、日本、中庸、國標、台灣、港式台灣)</p>
     <p> 考慮改良數、及進張後，平均下一向聽進張數</p>
     <p> 不考慮翻數、防守、牌河、或鳴牌 </p>
-    <InputForm @handle-query="handleQuery"></InputForm>
+    <InputKeyboard
+      @inputTile="(tileName) => inputTile(tileName)"
+      @removeLastTile="removeLastTile"
+      @clearAll="clearAll"
+      @submitQuery="handleQuery"
+      @ruleChange="(ruleName) => this.ruleName=ruleName"
+    />
+    <TileHand :hand="hand" @tileFaceClick="(idx) => removeTile(idx)" />
     <v-alert
       v-if="error"
       color="red"
       type="error"
     > {{error}}
     </v-alert>
-    <template v-if="tiles">
+    <template v-if="queryResults">
       <h3>結果</h3>
       <template v-if="queryResults.shanten>=0">
         <template v-for="t in tiles">
@@ -29,28 +35,33 @@
 </template>
 
 <script>
-import InputForm from './components/InputForm.vue'
 import SingleResult from './components/SingleResult.vue'
-import { suitStrsQuery } from './scripts/InOut.js'
+import TileHand from './components/TileHand.vue'
+import InputKeyboard from './components/InputKeyboard.vue'
+import { tilesQuery } from './scripts/InOut.js'
+import { sortHand } from './scripts/Helper.js'
 export default {
   name: 'App',
   components: {
-    InputForm,
-    SingleResult
+    SingleResult,
+    TileHand,
+    InputKeyboard
   },
   data(){
     return {
-      query: null,
+      // query: null,
+      hand: [],
+      ruleName: 'Menzu',
       queryResults: null,
       tiles: null,
       error: null,
     }
   },
   methods: {
-    handleQuery: function(query){
-      this.query = query
+    handleQuery(){
       this.overlay = true
-      suitStrsQuery(this.query.suitStrArr, this.query.ruleName)
+      sortHand(this.hand)
+      tilesQuery(this.hand, this.ruleName)
       .then(res => {
         this.queryResults = res
         this.error = null
@@ -66,17 +77,45 @@ export default {
         this.queryResults = null
       })
     },
+    inputTile(tileName){
+      this.hand.push(tileName)
+    },
+    clearAll(){
+      this.hand = []
+      this.queryResults = null
+      this.tiles = null
+      this.error = null
+    },
+    removeLastTile(){
+      this.hand.pop()
+    },
+    removeTile(idx){
+      this.hand = this.hand.filter((item, i) => i !== idx)
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  padding: 50px;
-  max-width: 700px;
-}
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    background-color: rgb(252, 249, 243);
+    padding: 20px;
+    height: '100vh';
+    max-width: 700px;
+    min-width: 350px;
+    margin: auto;
+  }
+
+  p {
+    margin-bottom: 6px !important;
+  }
+
+  @font-face {
+    font-family: "Mahjong";
+    src: url(./fonts/S-Mahjong.ttf) format("truetype");
+  }
 </style>

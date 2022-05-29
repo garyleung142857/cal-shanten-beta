@@ -1,54 +1,81 @@
 <template>
-  <v-card class="ma-1">
-    <v-card-subtitle class="pt-2 pb-0">{{title}}{{subtitle}}</v-card-subtitle>
-    <v-card-text class="pt-0 pb-2">{{text}}</v-card-text>
+  <v-card 
+    class="d-flex ma-1 pa-1 align-center"
+    :color="bgColor"
+    :style="`border-left: 25px solid ${borderColor}`"
+    flat tile
+  >
+    <TileImage v-if="tile"
+      :tileName="tile"
+      class="px-1"
+      
+    />
+    <v-card-text class="pa-1 card-text">
+      <div>
+        {{text}}
+      </div>
+      <div>
+        <TileImage v-for="(tn, idx) in analysis.ukeireList" :tileName="tn" :key="idx" text/>
+      </div>
+    </v-card-text>
   </v-card>
 </template>
 <script>
+  import TileImage from '@/components/TileImage.vue'
+  import { interpolateColor } from '@/scripts/colorMixing.js'
   export default {
     name: 'SingleResult',
+    components: {
+      TileImage
+    },
     props: {
       tile: String,
       analysis: Object
     },
     computed: {
-      title: function(){
-        if(this.tile){
-          return '打' + this.tile + ': '
-        } else {
-          return ''
-        }
+      isTenPai(){
+        return this.analysis.shanten == 0
       },
-      subtitle: function(){
-        let s = ''
-        if (this.analysis.shanten == 0){
-          if (this.analysis.ukeire > 0){
-            s += `聽牌 ${this.analysis.ukeireList} ${this.analysis.ukeire}張`
-            return s
-          } else {
-            s += `空聽`
-            return s
-          }
-        } else {
-          s += `${this.analysis.shanten}向聽 入章${this.analysis.ukeire}張 ${this.analysis.ukeireList}`
-          return s
-        }
+      hasImprovment(){
+        return this.analysis.avgWithImprovment > this.analysis.ukeire
       },
-      text: function(){
+      textShanTen(){
         let s = ''
-        if (this.analysis.shanten == 0){
-          if(this.analysis.avgWithImprovment > this.analysis.ukeire){
-            s += `改良平均${this.analysis.avgWithImprovment.toFixed(2)}張`
-          }
-          return s
+        if (this.isTenPai){
+          s = this.analysis.ukeire > 0 ? '聽牌' : '空聽'
         } else {
-          if(this.analysis.avgWithImprovment > this.analysis.ukeire){
-            s += `改良平均${this.analysis.avgWithImprovment.toFixed(2)}張 `
-          }
-          s += `下一向聽平均入章${this.analysis.avgNextUkeire.toFixed(2)}張`
-          return s
+          s = `${this.analysis.shanten}向聽`
         }
+        return s
+      },
+      textSpeed(){
+        return this.analysis.speedRef? `參考速度: ${this.analysis.speedRef.toFixed(2)}` : ''
+      },
+      textUkeire(){
+        let s = ''
+        s = this.isTenPai ? `聽${this.analysis.ukeireList.length}門` : '入章'
+        s += `${this.analysis.ukeire}`
+        s += this.hasImprovment ? `(${this.analysis.avgWithImprovment.toFixed(2)})張 ` : '張 '
+        s += this.isTenPai ? '' : `下一向聽平均入章${this.analysis.avgNextUkeire.toFixed(2)}張`
+        return s
+      },
+      text(){
+        return this.textShanTen + ' ' + this.textUkeire + ' ' + this.textSpeed
+      },
+      bgColor(){
+        return interpolateColor(this.analysis.shanten - 1, this.analysis.avgNextUkeire, false)
+      },
+      borderColor(){
+        return interpolateColor(this.analysis.shanten, this.analysis.ukeire, true)
       }
     }
   }
 </script>
+
+<style scoped>
+  .card-text{
+    color: unset !important;
+    font-weight: 500;
+    font-size: 18px;
+  }
+</style>

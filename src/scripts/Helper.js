@@ -118,14 +118,27 @@ export const checkHand = (hand, ruleName) =>{
   }
 }
 
+export const sortHand = (hand) => {
+  const SUITS = ['m', 'p', 's', 'z']
+  const RANKS = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+  hand.sort((a, b) => {
+    const rankDiff = SUITS.indexOf(a[1]) - SUITS.indexOf(b[1])
+    if(SUITS.indexOf(a[1]) == SUITS.indexOf(b[1])){
+      return RANKS.indexOf(a[0]) > RANKS.indexOf(b[0]) ? 1 : -1
+    }
+    return rankDiff > 0 ? 1 : -1
+  })
+}
+
+
 export const rulesNames = [
-  'Menzu',
-  'HK',
-  'Riichi',
-  'ZungJung',
-  'MCR',
-  'Taiwan',
-  'HKTW'
+  {text: '面子', value: 'Menzu'},
+  {text: '舊章', value: 'HK'},
+  {text: '日本', value: 'Riichi'},
+  {text: '中庸', value: 'ZungJung'},
+  {text: '國標', value: 'MCR'},
+  {text: '台灣', value: 'Taiwan'},
+  {text: '港台', value: 'HKTW'}
 ]
 
 export const rulesMax = {
