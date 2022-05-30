@@ -19,26 +19,14 @@ const queryHand = (hand, ruleName) => {
 
 
 export const tilesQuery = (tiles, ruleName) => {
-  return new Promise((resolve, reject) => {
-    const hand = tilesToHand(tiles)
-    const result = queryHand(hand, ruleName)
-    if (result['error']){
-      reject(result['error'])
-    } else {
-      resolve(result)
-    }
-  })
+  const hand = tilesToHand(tiles)
+  const result = queryHand(hand, ruleName)
+  return result
 }
 
 
 export const suitStrsQuery = (suitStrs, ruleName) => {
-  return new Promise((resolve, reject) => {
-    const hand = suitStrsToHand(suitStrs)
-    const result = queryHand(hand, ruleName)
-    if (result['error']){
-      reject(result['error'])
-    } else {
-      resolve(result)
-    }
-  })
+  const hand = suitStrsToHand(suitStrs)
+  const result = queryHand(hand, ruleName)
+  return result
 }

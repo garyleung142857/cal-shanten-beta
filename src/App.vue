@@ -1,8 +1,7 @@
 <template>
   <v-app id="app">
     <h1> 向聽入章計算機 (Beta) </h1>
-    <p>
-    <a 
+    <p><a 
       href="https://github.com/garyleung142857/cal-shanten-beta"
       target="_blank"
     >關於</a></p>
@@ -20,7 +19,7 @@
       type="error"
     > {{error}}
     </v-alert>
-    <template v-if="queryResults">
+    <template v-if="queryResults && !error">
       <h3>結果</h3>
       <template v-if="queryResults.shanten>=0">
         <template v-for="t in tiles">
@@ -33,6 +32,16 @@
       </template>
       <h5 v-else> 和牌 </h5>
     </template>
+
+    <v-overlay v-model="overlay" opacity="0">
+      <v-progress-circular
+        color="rgb(160, 112, 110)"
+        indeterminate
+        width="10"
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   </v-app>
 </template>
 
@@ -40,8 +49,10 @@
 import SingleResult from './components/SingleResult.vue'
 import TileHand from './components/TileHand.vue'
 import InputKeyboard from './components/InputKeyboard.vue'
-import { tilesQuery } from './scripts/InOut.js'
 import { sortHand } from './scripts/Helper.js'
+
+const bgCalc = new Worker('./scripts/bgWorker.js', {type: 'module'})
+
 export default {
   name: 'App',
   components: {
@@ -51,32 +62,20 @@ export default {
   },
   data(){
     return {
-      // query: null,
+      overlay: false,
       hand: [],
       ruleName: 'Menzu',
       queryResults: null,
-      tiles: null,
-      error: null,
     }
   },
   methods: {
     handleQuery(){
       this.overlay = true
+      this.queryResults = null
       sortHand(this.hand)
-      tilesQuery(this.hand, this.ruleName)
-      .then(res => {
-        this.queryResults = res
-        this.error = null
-        if (this.queryResults['tiles']){
-          this.tiles = this.queryResults['tiles']
-        } else {
-          this.tiles = [{tile: null, analysis: this.queryResults}]
-        }
-      })
-      .catch(err => {
-        this.error = err
-        this.tiles = null
-        this.queryResults = null
+      bgCalc.postMessage({
+        method: 'tilesQuery',
+        args: [this.hand, this.ruleName]
       })
     },
     inputTile(tileName){
@@ -85,8 +84,6 @@ export default {
     clearAll(){
       this.hand = []
       this.queryResults = null
-      this.tiles = null
-      this.error = null
     },
     removeLastTile(){
       this.hand.pop()
@@ -94,6 +91,22 @@ export default {
     removeTile(idx){
       this.hand = this.hand.filter((item, i) => i !== idx)
     }
+  },
+  computed:{
+    tiles(){
+      return this.queryResults ? this.queryResults['tiles'] || [{tile: null, analysis: this.queryResults}] : null
+    },
+    error(){
+      return this.queryResults ? this.queryResults['error'] : null
+    }
+  },
+  created(){
+    bgCalc.onmessage = (event) => {
+      if (event.data.key !== 'working') {
+        this[event.data.key] = event.data.value
+        this.overlay = false
+      }
+    };
   }
 }
 </script>
