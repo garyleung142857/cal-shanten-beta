@@ -6,7 +6,6 @@ export const router = new Router({
   mode: 'history',
   base: '/cal-shanten-beta',
   routes: [
-    {path: '/query', component: HomePage, name: 'HomePage'},
-    {path: '/', redirect: {'name': 'HomePage'}}
+    {path: '/', component: HomePage, name: 'HomePage'}
   ]
 })
