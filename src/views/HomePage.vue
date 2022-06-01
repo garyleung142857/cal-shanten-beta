@@ -6,13 +6,27 @@
       target="_blank"
     >關於</a></p>
     <InputKeyboard
+      :ruleName="ruleName"
       @inputTile="(tileName) => inputTile(tileName)"
       @removeLastTile="removeLastTile"
       @clearAll="clearAll"
       @submitQuery="handleQuery"
       @ruleChange="(ruleName) => this.ruleName=ruleName"
     />
+    
     <TileHand :hand="hand" @tileFaceClick="(idx) => removeTile(idx)" />
+    
+    <v-container flat class="align-self-start pa-0 pb-4" >
+      <v-btn
+        text tile small outlined class="px-1 mx-1" color=""
+        @click="copyToClipboard(false)"
+      >複製鏈結</v-btn>
+      <v-btn
+        text tile small outlined class="px-1 mx-1"
+        @click="copyToClipboard(true)"
+      >複製鏈結(顯示結果)</v-btn>
+    </v-container>
+
     <v-alert
       v-if="error"
       color="red"
@@ -49,7 +63,7 @@
 import SingleResult from '@/components/SingleResult.vue'
 import TileHand from '@/components/TileHand.vue'
 import InputKeyboard from '@/components/InputKeyboard.vue'
-import { sortHand } from '@/scripts/Helper.js'
+import { sortHand, checkTile } from '@/scripts/Helper.js'
 
 const bgCalc = new Worker('@/scripts/bgWorker.js', {type: 'module'})
 
@@ -90,6 +104,19 @@ export default {
     },
     removeTile(idx){
       this.hand = this.hand.filter((item, i) => i !== idx)
+    },
+    async copyToClipboard(calc=false){
+      try {
+        var q = {...this.urlQuery}
+        if(calc){
+          q.calc = 't'
+        }
+        const newUrl = window.location.origin + this.$router.resolve({name: 'HomePage', query: q}).href
+        await navigator.clipboard.writeText(newUrl)
+        alert('已複製')
+      } catch($e){
+        alert($e)
+      }
     }
   },
   computed:{
@@ -98,6 +125,12 @@ export default {
     },
     error(){
       return this.queryResults ? this.queryResults['error'] : null
+    },
+    urlQuery(){
+      return {
+        rn: this.ruleName,
+        ts: this.hand.reduce((a, b) => a + b, '')
+      }
     }
   },
   created(){
@@ -107,6 +140,14 @@ export default {
         this.overlay = false
       }
     };
+  },
+  beforeMount(){
+    var q = this.$route.query
+    this.ruleName = q.rn
+    this.hand = q.ts.match(/.{1,2}/g).filter(tileName => checkTile(tileName))
+    if(q.calc){
+      this.handleQuery()
+    }
   }
 }
 </script>
