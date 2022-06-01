@@ -130,6 +130,9 @@ export const sortHand = (hand) => {
   })
 }
 
+export const checkTile = (tileName) => {
+  return tileNames.some(suit => suit.includes(tileName))
+}
 
 export const rulesNames = [
   {text: '面子', value: 'Menzu'},

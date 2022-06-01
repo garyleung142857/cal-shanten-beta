@@ -69,6 +69,9 @@
     components: {
       TileButton
     },
+    props: {
+      ruleName: {type: String}
+    },
     data(){
       return {
         curSuit: 'man',
@@ -101,6 +104,11 @@
       },
       changeSuit(suit){
         this.curSuit = suit
+      }
+    },
+    mounted(){
+      if(rulesNames.find(rule => rule.value == this.ruleName)){
+        this.curRule = this.ruleName
       }
     }
   }
