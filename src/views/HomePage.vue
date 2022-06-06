@@ -143,8 +143,8 @@ export default {
   },
   beforeMount(){
     var q = this.$route.query
-    this.ruleName = q.rn
-    this.hand = q.ts.match(/.{1,2}/g).filter(tileName => checkTile(tileName))
+    this.ruleName = q.rn || 'Menzu'
+    this.hand = q.ts ? q.ts.match(/.{1,2}/g).filter(tileName => checkTile(tileName)) : []
     if(q.calc){
       this.handleQuery()
     }

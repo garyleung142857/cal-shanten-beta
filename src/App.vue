@@ -20,7 +20,7 @@
     padding: 20px;
     height: '100vh';
     max-width: 700px;
-    min-width: 350px;
+    min-width: 400px;
     margin: auto;
   }
 
