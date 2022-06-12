@@ -14,13 +14,13 @@
         <v-btn
           class="suit-btn pa-1 ma-1" 
           @click="changeSuit('man')"
-          :color="curSuit == 'man' ? 'orange lighten-2' : 'blue-grey lighten-3'"
+          :color="curSuit == 'man' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
         >萬子</v-btn>
         <v-btn 
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('pin')"
-          :color="curSuit == 'pin' ? 'orange lighten-2' : 'blue-grey lighten-3'"
+          :color="curSuit == 'pin' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
         >筒子</v-btn>
       </v-row>
@@ -28,13 +28,13 @@
         <v-btn
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('sou')"
-          :color="curSuit == 'sou' ? 'orange lighten-2' : 'blue-grey lighten-3'"
+          :color="curSuit == 'sou' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
         >索子</v-btn>
         <v-btn 
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('zi')"
-          :color="curSuit == 'zi' ? 'orange lighten-2' : 'blue-grey lighten-3'"
+          :color="curSuit == 'zi' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
         >字牌</v-btn>
       </v-row>
@@ -43,18 +43,7 @@
         <v-btn class="suit-btn pa-1 ma-1" outlined color="red" @click="clearAll()">清除</v-btn>
       </v-row>
       <v-row dense class="d-flex">
-        <v-select class="rule-select pa-1 ma-1"
-          v-model="curRule"
-          :items="r"
-          :append-icon="null"
-          dense hide-details
-        >
-          <template v-slot:selection="{ item }">
-            <span class="d-flex justify-center" style="width: 100%;">
-              {{ item.text }}
-            </span>
-          </template>
-        </v-select>
+        <v-btn class="suit-btn pa-1 ma-1" outlined color="amber darken-3" @click="sortHand()">理牌</v-btn>
         <v-btn class="suit-btn pa-1 ma-1 primary" @click="submitQuery()">計算</v-btn>
       </v-row>
     </v-card>
@@ -63,7 +52,6 @@
 <script>
   import TileButton from '@/components/TileButton.vue'
   import LAYERS from '@/constants/KeyboardPattern.js'
-  import { rulesNames } from '@/scripts/Helper.js'
   export default {
     name: 'TileKeyboard',
     components: {
@@ -74,14 +62,7 @@
     },
     data(){
       return {
-        curSuit: 'man',
-        curRule: 'Menzu',
-        r: rulesNames,
-      }
-    },
-    watch: {
-      curRule(nv){
-        this.$emit('ruleChange', nv)
+        curSuit: 'man'
       }
     },
     computed: {
@@ -92,6 +73,9 @@
     methods: {
       inputTile(tileName){
         this.$emit('inputTile', tileName)
+      },
+      sortHand(){
+        this.$emit('sortHand')
       },
       removeLastTile(){
         this.$emit('removeLastTile')
@@ -104,11 +88,6 @@
       },
       changeSuit(suit){
         this.curSuit = suit
-      }
-    },
-    mounted(){
-      if(rulesNames.find(rule => rule.value == this.ruleName)){
-        this.curRule = this.ruleName
       }
     }
   }
@@ -124,14 +103,5 @@
     align-items: center;
     position: relative;
     height: unset !important;
-  }
-  .rule-select{
-    height: unset !important;
-    width: 64px;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    font-size: smaller;
-    text-align: center;
   }
 </style>

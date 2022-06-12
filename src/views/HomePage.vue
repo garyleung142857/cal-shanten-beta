@@ -11,14 +11,27 @@
       @removeLastTile="removeLastTile"
       @clearAll="clearAll"
       @submitQuery="handleQuery"
-      @ruleChange="(ruleName) => this.ruleName=ruleName"
+      @sortHand="sortHand"
     />
     
     <TileHand :hand="hand" @tileFaceClick="(idx) => removeTile(idx)" />
     
-    <v-container flat class="align-self-start pa-0 pb-4" >
+    <v-container flat class="d-flex align-self-start pa-0 pb-4" >
+      <v-select class="rule-select pa-0 ma-0"
+        v-model="ruleName"
+        :items="r"
+        :append-icon="null"
+        label="規則"
+        dense hide-details
+      >
+        <template v-slot:selection="{ item }">
+          <span class="d-flex justify-center" style="width: 100%;">
+            {{ item.text }}
+          </span>
+        </template>
+      </v-select>
       <v-btn
-        text tile small outlined class="px-1 mx-1" color=""
+        text tile small outlined class="px-1 mx-1 ml-auto" color=""
         @click="copyToClipboard(false)"
       >複製鏈結</v-btn>
       <v-btn
@@ -63,7 +76,7 @@
 import SingleResult from '@/components/SingleResult.vue'
 import TileHand from '@/components/TileHand.vue'
 import InputKeyboard from '@/components/InputKeyboard.vue'
-import { sortHand, checkTile } from '@/scripts/Helper.js'
+import { sortHand, checkTile, rulesNames } from '@/scripts/Helper.js'
 
 const bgCalc = new Worker('@/scripts/bgWorker.js', {type: 'module'})
 
@@ -80,6 +93,7 @@ export default {
       hand: [],
       ruleName: 'Menzu',
       queryResults: null,
+      r: rulesNames
     }
   },
   methods: {
@@ -91,6 +105,9 @@ export default {
         method: 'tilesQuery',
         args: [this.hand, this.ruleName]
       })
+    },
+    sortHand(){
+      sortHand(this.hand)
     },
     inputTile(tileName){
       this.hand.push(tileName)
@@ -156,9 +173,20 @@ export default {
   p {
     margin-bottom: 6px !important;
   }
-
+  .rule-select{
+    height: unset !important;
+    flex-grow: 0 !important;
+    display: inline-block !important;
+    width: 100px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: smaller !important;
+    text-align: center;
+  }
   @font-face {
     font-family: "Mahjong";
     src: url(../fonts/S-Mahjong.ttf) format("truetype");
   }
+
 </style>
