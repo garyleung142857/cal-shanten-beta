@@ -1,4 +1,4 @@
-import { reduceHand, FULLSET, emptyHand, sumHand } from './Helper.js'
+import { reduceHand, FULLSET, emptyHand, tileNames } from './Helper.js'
 import { calShantenRule } from './CalShanten.js'
 
 
@@ -12,7 +12,8 @@ const setCalRule = (ruleName) => {
 
 const ukeire1 = (hand) => {
   // for 3n + 1 hands
-  let ukeires = emptyHand()
+  let ukeireList = []
+  let totalUkeire = 0
   const originalShanten = calRule(hand)  // at least 0, since not completed
 
   for (let i = 0; i < 4; i++){
@@ -23,17 +24,16 @@ const ukeire1 = (hand) => {
         const newShanten = calRule(hand)
         hand[i][j]--
         if (newShanten < originalShanten){
-          ukeires[i][j] = remainingCount
+          ukeireList.push(tileNames[i][j])
+          totalUkeire += remainingCount
         }
       }
     }
   }
   return {
-    ukeire: ukeires,
-    ukeireList: reduceHand(ukeires, false),
-    totalUkeire: sumHand(ukeires),
+    ukeireList: ukeireList,
+    totalUkeire: totalUkeire,
     shanten: originalShanten,
-    
   }
 }
 
@@ -42,7 +42,7 @@ const ukeire2 = (hand) => {
   // for 3n + 2 hands
   // consider every tile, even if shanten increases
   const originalShanten = calRule(hand)
-  let ukeires = emptyHand()
+  // let ukeires = emptyHand()
   let bestUkeire = 0
   
   for (let i = 0; i < 4; i++){
@@ -50,11 +50,6 @@ const ukeire2 = (hand) => {
       if(hand[i][j] > 0){
         hand[i][j]--
         const newUkeire = ukeire1(hand)
-        ukeires[i][j] = [
-          newUkeire.shanten,
-          newUkeire.totalUkeire,
-          newUkeire.ukeireList
-        ]
         if(newUkeire.shanten == originalShanten && newUkeire.totalUkeire > bestUkeire){
           bestUkeire = newUkeire.totalUkeire
         }
@@ -65,7 +60,6 @@ const ukeire2 = (hand) => {
   return {
     best: bestUkeire,
     shanten: originalShanten,
-    tiles: ukeires
   }
 }
 
@@ -90,7 +84,7 @@ const speedRef = (ukeire, avgNextUkeire, leftTurns) => {
 const analyze1 = (hand) => {
   let totalTiles = 0
   let totalUkeire = 0
-  // let ukeireImprovment = emptyHand()
+  let ukeireImprovment = []
   let nextShantenTiles = 0
   let nextShantenUkeire = 0
   const thisUkeire = ukeire1(hand)
@@ -106,7 +100,9 @@ const analyze1 = (hand) => {
         if(newUkeire.shanten == originalShanten){
           totalTiles += remainingCount
           totalUkeire += remainingCount * newUkeire.best
-          // ukeireImprovment[i][j] = newUkeire.best
+          if(newUkeire.best > thisUkeire.totalUkeire){
+            ukeireImprovment.push(tileNames[i][j])
+          }
         } else if (newUkeire.shanten < originalShanten){
           nextShantenTiles += remainingCount
           nextShantenUkeire += remainingCount * newUkeire.best
@@ -125,7 +121,7 @@ const analyze1 = (hand) => {
 
   return {
     shanten: originalShanten,
-    // improvedUkeire: ukeireImprovment,
+    improvedUkeire: ukeireImprovment,
     ukeire: thisUkeire.totalUkeire,
     ukeireList: thisUkeire.ukeireList,
     avgWithImprovment: totalUkeire / totalTiles,
@@ -150,7 +146,7 @@ const analyze2 = (hand) => {
         }
       }
     }
-    const tiles = reduceHand(analysis, true)
+    const tiles = reduceHand(analysis)
     const sortedTiles = tiles.sort(sortFunc)
 
     return {

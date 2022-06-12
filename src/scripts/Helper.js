@@ -1,4 +1,4 @@
-const tileNames = [
+export const tileNames = [
   ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m'],
   ['1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p'],
   ['1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s'],
@@ -6,19 +6,15 @@ const tileNames = [
 ]
 
 
-export const reduceHand = (hand, detailed=true) => {
+export const reduceHand = (hand) => {
   let resList = []
   for (let i = 0; i < 4; i++){
     for (let j = 0; j < tileNames[i].length; j++){
       if (hand[i][j]){
-        if (detailed){
-          resList.push({
-            tile: tileNames[i][j],
-            analysis: hand[i][j]
-          })
-        } else {
-          resList.push(tileNames[i][j])
-        }
+        resList.push({
+          tile: tileNames[i][j],
+          analysis: hand[i][j]
+        })
       }
     }
   }
@@ -41,18 +37,6 @@ export const emptyHand = () => [
   [null, null, null, null, null, null, null],
 ]
 
-
-export const sumHand = (hand) => {
-  let s = 0
-  hand.forEach(suit => {
-    suit.forEach(tileCount => {
-      if (tileCount){
-        s += tileCount
-      }
-    })
-  })
-  return s
-}
 
 export const suitStrToSuit = (suitStr, isHonour) => {
   let len = isHonour ? 7 : 9
@@ -99,7 +83,9 @@ export const tilesToHand = (tilesArr) => {
 }
 
 export const checkHand = (hand, ruleName) =>{
-  const handLen = sumHand(hand)
+  const handLen = hand.reduce(
+    (a, b) => a.concat(b), []
+  ).reduce((a, b) => a + b, 0)
   if (handLen % 3 == 0 || handLen > rulesMax[ruleName]){
     throw `Error: Hand contains ${handLen} tiles`
   } else {
