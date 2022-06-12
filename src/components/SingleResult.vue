@@ -7,15 +7,17 @@
   >
     <TileImage v-if="tile"
       :tileName="tile"
-      class="px-1"
-      
+      class="px-1"      
     />
     <v-card-text class="pa-1 card-text">
       <div>
         {{text}}
       </div>
-      <div>
-        <TileImage v-for="(tn, idx) in analysis.ukeireList" :tileName="tn" :key="idx" text/>
+      <div v-if="analysis.ukeireList.length>0">
+        <span class="text-label">入章</span><TileImage v-for="(tn, idx) in analysis.ukeireList" :tileName="tn" :key="idx" text/>
+      </div>
+      <div v-if="analysis.improvedUkeire.length>0">
+        <span class="text-label">改良</span><TileImage v-for="(tn, idx) in analysis.improvedUkeire" :tileName="tn" :key="idx" small/>
       </div>
     </v-card-text>
   </v-card>
@@ -77,5 +79,8 @@
     color: unset !important;
     font-weight: 500;
     font-size: 18px;
+  }
+  .text-label{
+    font-size: 12px;
   }
 </style>
