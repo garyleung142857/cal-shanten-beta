@@ -84,7 +84,8 @@ const speedRef = (ukeire, avgNextUkeire, leftTurns) => {
 const analyze1 = (hand) => {
   let totalTiles = 0
   let totalUkeire = 0
-  let ukeireImprovement = []
+  let ukeireList = {}
+  let ukeireImprovement = {}
   let nextShantenTiles = 0
   let nextShantenUkeire = 0
   const thisUkeire = ukeire1(hand)
@@ -101,9 +102,10 @@ const analyze1 = (hand) => {
           totalTiles += remainingCount
           totalUkeire += remainingCount * newUkeire.best
           if(newUkeire.best > thisUkeire.totalUkeire){
-            ukeireImprovement.push(tileNames[i][j])
+            ukeireImprovement[tileNames[i][j]] = newUkeire.best
           }
         } else if (newUkeire.shanten < originalShanten){
+          ukeireList[tileNames[i][j]] = newUkeire.best
           nextShantenTiles += remainingCount
           nextShantenUkeire += remainingCount * newUkeire.best
         }
@@ -123,7 +125,7 @@ const analyze1 = (hand) => {
     shanten: originalShanten,
     improvedUkeire: ukeireImprovement,
     ukeire: thisUkeire.totalUkeire,
-    ukeireList: thisUkeire.ukeireList,
+    ukeireList: ukeireList,
     avgWithImprovement: totalUkeire / totalTiles,
     avgNextUkeire: avgNextUkeire,
     speedRef: speed
