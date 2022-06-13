@@ -16,13 +16,13 @@
           @click="changeSuit('man')"
           :color="curSuit == 'man' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
-        >萬子</v-btn>
+        > {{ $t('suits.man') }} </v-btn>
         <v-btn 
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('pin')"
           :color="curSuit == 'pin' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
-        >筒子</v-btn>
+        > {{ $t('suits.pin') }} </v-btn>
       </v-row>
       <v-row dense class="d-flex">
         <v-btn
@@ -30,21 +30,21 @@
           @click="changeSuit('sou')"
           :color="curSuit == 'sou' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
-        >索子</v-btn>
+        > {{ $t('suits.sou') }} </v-btn>
         <v-btn 
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('zi')"
           :color="curSuit == 'zi' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
-        >字牌</v-btn>
+        > {{ $t('suits.zi') }}</v-btn>
       </v-row>
       <v-row dense class="d-flex">
-        <v-btn class="suit-btn pa-1 ma-1" outlined color="deep-orange" @click="removeLastTile()">取消</v-btn>
-        <v-btn class="suit-btn pa-1 ma-1" outlined color="red" @click="clearAll()">清除</v-btn>
+        <v-btn class="suit-btn pa-1 ma-1" outlined color="deep-orange" @click="removeLastTile()"> {{ $t('keyboard.cancel') }} </v-btn>
+        <v-btn class="suit-btn pa-1 ma-1" outlined color="red" @click="clearAll()"> {{ $t('keyboard.clear') }} </v-btn>
       </v-row>
       <v-row dense class="d-flex">
-        <v-btn class="suit-btn pa-1 ma-1" outlined color="amber darken-3" @click="sortHand()">理牌</v-btn>
-        <v-btn class="suit-btn pa-1 ma-1 primary" @click="submitQuery()">計算</v-btn>
+        <v-btn class="suit-btn pa-1 ma-1" outlined color="amber darken-3" @click="sortHand()"> {{ $t('keyboard.sort') }} </v-btn>
+        <v-btn class="suit-btn pa-1 ma-1 primary" @click="submitQuery()"> {{ $t('keyboard.calculate') }} </v-btn>
       </v-row>
     </v-card>
   </v-card>
