@@ -116,13 +116,15 @@ export default {
   },
   methods: {
     handleQuery(){
-      this.overlay = true
-      this.queryResults = null
-      sortHand(this.hand)
-      bgCalc.postMessage({
-        method: 'tilesQuery',
-        args: [this.hand, this.ruleName]
-      })
+      if(this.hand.length > 0){
+        this.overlay = true
+        this.queryResults = null
+        sortHand(this.hand)
+        bgCalc.postMessage({
+          method: 'tilesQuery',
+          args: [this.hand, this.ruleName]
+        })
+      }
     },
     sortHand(){
       sortHand(this.hand)
@@ -167,7 +169,16 @@ export default {
       return this.queryResults ? this.queryResults['tiles'] || [{tile: null, analysis: this.queryResults}] : null
     },
     error(){
-      return this.queryResults ? this.queryResults['error'] : null
+      // return this.queryResults ? this.queryResults['error'] : null
+      if(this.queryResults && this.queryResults['error']){
+        const err = this.queryResults['error']
+        if(err.error == 'handLen'){
+          return this.$t('errorMsg.handLen', [err.len])
+        } else if(err.error == 'extraCopies'){
+          return this.$t('errorMsg.extraCopies', [this.$t(`tiles.${'t' + err.tile}`), err.count])
+        }
+      }
+      return null
     },
     urlQuery(){
       return {
