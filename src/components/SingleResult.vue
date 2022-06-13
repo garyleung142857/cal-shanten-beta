@@ -59,7 +59,7 @@
         if(this.isTenPai){
           return this.$t('term.tenpaiUkeireMsg', [this.analysis.ukeireList.length, this.analysis.ukeire, this.improvmentString]) 
         } else {
-          return this.$t('term.ukeireMsg', [this.analysis.ukeire, this.improvmentString, this.analysis.avgNextUkeire]) 
+          return this.$t('term.ukeireMsg', [this.analysis.ukeire, this.improvmentString, this.analysis.avgNextUkeire.toFixed(2)]) 
         }
       },
       text(){
