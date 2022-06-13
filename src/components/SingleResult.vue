@@ -13,24 +13,31 @@
       <div>
         {{text}}
       </div>
-      <div v-if="analysis.ukeireList.length>0">
-        <span class="text-label"> {{ $t('term.ukeire') }} </span>
-        <TileImage v-for="(tn, idx) in analysis.ukeireList" :tileName="tn" :key="idx" text/>
+      <div v-if="Object.keys(analysis.ukeireList).length>0">
+        <TileArray
+          :title="$t('term.ukeire')"
+          :tiles="analysis.ukeireList"
+        />
       </div>
-      <div v-if="analysis.improvedUkeire.length>0">
-        <span class="text-label"> {{ $t('term.improvement') }} </span>
-        <TileImage v-for="(tn, idx) in analysis.improvedUkeire" :tileName="tn" :key="idx" small/>
+      <div v-if="Object.keys(analysis.improvedUkeire).length>0">
+        <TileArray
+          :title="$t('term.improvement')"
+          :tiles="analysis.improvedUkeire"
+          small
+        />
       </div>
     </v-card-text>
   </v-card>
 </template>
 <script>
   import TileImage from '@/components/TileImage.vue'
+  import TileArray from '@/components/TileArray.vue'
   import { interpolateColor } from '@/scripts/colorMixing.js'
   export default {
     name: 'SingleResult',
     components: {
-      TileImage
+      TileImage,
+      TileArray
     },
     props: {
       tile: String,
@@ -40,8 +47,8 @@
       isTenPai(){
         return this.analysis.shanten == 0
       },
-      improvmentString(){
-        return this.analysis.avgWithImprovment > this.analysis.ukeire ? `(${this.analysis.avgWithImprovment.toFixed(2)})` : null
+      improvementString(){
+        return this.analysis.avgWithImprovement > this.analysis.ukeire ? `(${this.analysis.avgWithImprovement.toFixed(2)})` : null
       },
       textShanTen(){
         let s = ''
@@ -57,9 +64,9 @@
       },
       textUkeire(){
         if(this.isTenPai){
-          return this.$t('term.tenpaiUkeireMsg', [this.analysis.ukeireList.length, this.analysis.ukeire, this.improvmentString]) 
+          return this.$t('term.tenpaiUkeireMsg', [Object.keys(this.analysis.ukeireList).length, this.analysis.ukeire, this.improvementString]) 
         } else {
-          return this.$t('term.ukeireMsg', [this.analysis.ukeire, this.improvmentString, this.analysis.avgNextUkeire.toFixed(2)]) 
+          return this.$t('term.ukeireMsg', [this.analysis.ukeire, this.improvementString, this.analysis.avgNextUkeire.toFixed(2)]) 
         }
       },
       text(){
@@ -80,8 +87,5 @@
     color: unset !important;
     font-weight: 500;
     font-size: 18px;
-  }
-  .text-label{
-    font-size: 12px;
   }
 </style>

@@ -10,7 +10,7 @@ const tc = {
   term: {
     agari: '和牌',
     ukeire: '入章',
-    improvement: '初步改良',
+    improvement: '改良',
     tenpai: '聽牌',
     karaten: '空聽',
     shanten: '{0}向聽',
