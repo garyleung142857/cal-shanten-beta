@@ -87,12 +87,12 @@ export const checkHand = (hand, ruleName) =>{
     (a, b) => a.concat(b), []
   ).reduce((a, b) => a + b, 0)
   if (handLen % 3 == 0 || handLen > rulesMax[ruleName]){
-    throw `Error: Hand contains ${handLen} tiles`
+    throw {error: 'handLen', len: handLen}
   } else {
     for (let i = 0; i < 4; i++){
       for (let j = 0; j < hand[i].length; j++){
         if (hand[i][j] > 4){
-          throw `Error: Tile ${tileNames[i][j]} contains ${hand[i][j]} copies.`
+          throw {error: 'extraCopies', tile: tileNames[i][j], count: hand[i][j]}
         }
       }
     }

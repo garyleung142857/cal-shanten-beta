@@ -14,10 +14,12 @@
         {{text}}
       </div>
       <div v-if="analysis.ukeireList.length>0">
-        <span class="text-label">入章</span><TileImage v-for="(tn, idx) in analysis.ukeireList" :tileName="tn" :key="idx" text/>
+        <span class="text-label"> {{ $t('term.ukeire') }} </span>
+        <TileImage v-for="(tn, idx) in analysis.ukeireList" :tileName="tn" :key="idx" text/>
       </div>
       <div v-if="analysis.improvedUkeire.length>0">
-        <span class="text-label">改良</span><TileImage v-for="(tn, idx) in analysis.improvedUkeire" :tileName="tn" :key="idx" small/>
+        <span class="text-label"> {{ $t('term.improvement') }} </span>
+        <TileImage v-for="(tn, idx) in analysis.improvedUkeire" :tileName="tn" :key="idx" small/>
       </div>
     </v-card-text>
   </v-card>
@@ -38,28 +40,27 @@
       isTenPai(){
         return this.analysis.shanten == 0
       },
-      hasImprovment(){
-        return this.analysis.avgWithImprovment > this.analysis.ukeire
+      improvmentString(){
+        return this.analysis.avgWithImprovment > this.analysis.ukeire ? `(${this.analysis.avgWithImprovment.toFixed(2)})` : null
       },
       textShanTen(){
         let s = ''
         if (this.isTenPai){
-          s = this.analysis.ukeire > 0 ? '聽牌' : '空聽'
+          s = this.analysis.ukeire > 0 ? this.$t('term.tenpai') : this.$t('term.karaten')
         } else {
-          s = `${this.analysis.shanten}向聽`
+          s = this.$t('term.shanten', [this.analysis.shanten])
         }
         return s
       },
       textSpeed(){
-        return this.analysis.speedRef? `參考速度: ${this.analysis.speedRef.toFixed(2)}` : ''
+        return this.analysis.speedRef? this.$t('term.speedref', [this.analysis.speedRef.toFixed(2)]) : ''
       },
       textUkeire(){
-        let s = ''
-        s = this.isTenPai ? `聽${this.analysis.ukeireList.length}門` : '入章'
-        s += `${this.analysis.ukeire}`
-        s += this.hasImprovment ? `(${this.analysis.avgWithImprovment.toFixed(2)})張 ` : '張 '
-        s += this.isTenPai ? '' : `下一向聽平均入章${this.analysis.avgNextUkeire.toFixed(2)}張`
-        return s
+        if(this.isTenPai){
+          return this.$t('term.tenpaiUkeireMsg', [this.analysis.ukeireList.length, this.analysis.ukeire, this.improvmentString]) 
+        } else {
+          return this.$t('term.ukeireMsg', [this.analysis.ukeire, this.improvmentString, this.analysis.avgNextUkeire]) 
+        }
       },
       text(){
         return this.textShanTen + ' ' + this.textUkeire + ' ' + this.textSpeed

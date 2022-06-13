@@ -1,10 +1,25 @@
 <template>
-  <v-container class="d-flex flex-column">
-    <h1> 向聽入章計算機 (Beta) </h1>
-    <p><a 
-      href="https://github.com/garyleung142857/cal-shanten-beta"
-      target="_blank"
-    >關於</a></p>
+  <v-container class="d-flex flex-column">    
+    <h1> {{ $t('msg.title') }} </h1>
+    <v-container flat class="d-flex align-self-start pa-0 pb-2">
+      <v-select class="lang-select pa-0 ma-0 mb-2"
+        v-model="$i18n.locale"
+        :items="langs"
+        prepend-inner-icon="mdi-translate"
+        dense hide-details
+      >
+        <template v-slot:selection="{ item }">
+          <span class="d-flex justify-center" style="width: 100%;">
+            {{ item.text }}
+          </span>
+        </template>
+      </v-select>
+      <p class="ml-auto"><a 
+        href="https://github.com/garyleung142857/cal-shanten-beta"
+        target="_blank"
+      > {{ $t('msg.about') }} </a></p>
+    </v-container>
+
     <InputKeyboard
       :ruleName="ruleName"
       @inputTile="(tileName) => inputTile(tileName)"
@@ -20,8 +35,7 @@
       <v-select class="rule-select pa-0 ma-0"
         v-model="ruleName"
         :items="r"
-        :append-icon="null"
-        label="規則"
+        :label="$t('rules.rule')"
         dense hide-details
       >
         <template v-slot:selection="{ item }">
@@ -31,13 +45,13 @@
         </template>
       </v-select>
       <v-btn
-        text tile small outlined class="px-1 mx-1 ml-auto" color=""
+        text tile small outlined class="px-1 mx-1 ml-auto link-btn"
         @click="copyToClipboard(false)"
-      >複製鏈結</v-btn>
+      > {{ $t('msg.copyLink') }} </v-btn>
       <v-btn
-        text tile small outlined class="px-1 mx-1"
+        text tile small outlined class="px-1 mx-1 link-btn"
         @click="copyToClipboard(true)"
-      >複製鏈結(顯示結果)</v-btn>
+      > {{ $t('msg.copyLinkWithResult') }} </v-btn>
     </v-container>
 
     <v-alert
@@ -46,8 +60,9 @@
       type="error"
     > {{error}}
     </v-alert>
+
     <template v-if="queryResults && !error">
-      <h3>結果</h3>
+      <h3> {{ $t('msg.results' )}}</h3>
       <template v-if="queryResults.shanten>=0">
         <template v-for="t in tiles">
           <SingleResult
@@ -57,7 +72,7 @@
           ></SingleResult>
         </template>
       </template>
-      <h5 v-else> 和牌 </h5>
+      <h5 v-else> {{ $t('term.agari') }} </h5>
     </template>
 
     <v-overlay v-model="overlay" opacity="0">
@@ -89,22 +104,27 @@ export default {
   },
   data(){
     return {
+      langs:[
+        {text: 'EN', value: 'en'},
+        {text: '繁體', value: 'tc'},
+      ],
       overlay: false,
       hand: [],
       ruleName: 'Menzu',
-      queryResults: null,
-      r: rulesNames
+      queryResults: null
     }
   },
   methods: {
     handleQuery(){
-      this.overlay = true
-      this.queryResults = null
-      sortHand(this.hand)
-      bgCalc.postMessage({
-        method: 'tilesQuery',
-        args: [this.hand, this.ruleName]
-      })
+      if(this.hand.length > 0){
+        this.overlay = true
+        this.queryResults = null
+        sortHand(this.hand)
+        bgCalc.postMessage({
+          method: 'tilesQuery',
+          args: [this.hand, this.ruleName]
+        })
+      }
     },
     sortHand(){
       sortHand(this.hand)
@@ -130,21 +150,39 @@ export default {
         }
         const newUrl = window.location.origin + this.$router.resolve({name: 'HomePage', query: q}).href
         await navigator.clipboard.writeText(newUrl)
-        alert('已複製')
+        alert(this.$t('msg.copied'))
       } catch($e){
         alert($e)
       }
     }
   },
   computed:{
+    r(){
+      return rulesNames.map(rn => {
+        return {
+          text: this.$t(`rules.${rn.value}`),
+          value: rn.value
+        }
+      })
+    },
     tiles(){
       return this.queryResults ? this.queryResults['tiles'] || [{tile: null, analysis: this.queryResults}] : null
     },
     error(){
-      return this.queryResults ? this.queryResults['error'] : null
+      // return this.queryResults ? this.queryResults['error'] : null
+      if(this.queryResults && this.queryResults['error']){
+        const err = this.queryResults['error']
+        if(err.error == 'handLen'){
+          return this.$t('errorMsg.handLen', [err.len])
+        } else if(err.error == 'extraCopies'){
+          return this.$t('errorMsg.extraCopies', [this.$t(`tiles.${'t' + err.tile}`), err.count])
+        }
+      }
+      return null
     },
     urlQuery(){
       return {
+        lang: this.$i18n.locale,
         rn: this.ruleName,
         ts: this.hand.reduce((a, b) => a + b, '')
       }
@@ -160,6 +198,7 @@ export default {
   },
   beforeMount(){
     var q = this.$route.query
+    this.$i18n.locale = q.lang || 'tc'
     this.ruleName = q.rn || 'Menzu'
     this.hand = q.ts ? q.ts.match(/.{1,2}/g).filter(tileName => checkTile(tileName)) : []
     if(q.calc){
@@ -170,8 +209,12 @@ export default {
 </script>
 
 <style>
-  p {
-    margin-bottom: 6px !important;
+  .lang-select{
+    height: unset !important;
+    flex-grow: 0 !important;
+    display: inline-block !important;
+    font-size: smaller !important;
+    width: 100px;
   }
   .rule-select{
     height: unset !important;
@@ -183,6 +226,9 @@ export default {
     position: relative;
     font-size: smaller !important;
     text-align: center;
+  }
+  .link-btn{
+    text-transform: none !important
   }
   @font-face {
     font-family: "Mahjong";
