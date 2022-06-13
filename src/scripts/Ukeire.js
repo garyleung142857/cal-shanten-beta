@@ -84,7 +84,7 @@ const speedRef = (ukeire, avgNextUkeire, leftTurns) => {
 const analyze1 = (hand) => {
   let totalTiles = 0
   let totalUkeire = 0
-  let ukeireImprovment = []
+  let ukeireImprovement = []
   let nextShantenTiles = 0
   let nextShantenUkeire = 0
   const thisUkeire = ukeire1(hand)
@@ -101,7 +101,7 @@ const analyze1 = (hand) => {
           totalTiles += remainingCount
           totalUkeire += remainingCount * newUkeire.best
           if(newUkeire.best > thisUkeire.totalUkeire){
-            ukeireImprovment.push(tileNames[i][j])
+            ukeireImprovement.push(tileNames[i][j])
           }
         } else if (newUkeire.shanten < originalShanten){
           nextShantenTiles += remainingCount
@@ -121,10 +121,10 @@ const analyze1 = (hand) => {
 
   return {
     shanten: originalShanten,
-    improvedUkeire: ukeireImprovment,
+    improvedUkeire: ukeireImprovement,
     ukeire: thisUkeire.totalUkeire,
     ukeireList: thisUkeire.ukeireList,
-    avgWithImprovment: totalUkeire / totalTiles,
+    avgWithImprovement: totalUkeire / totalTiles,
     avgNextUkeire: avgNextUkeire,
     speedRef: speed
   }
@@ -134,7 +134,6 @@ const analyze1 = (hand) => {
 const analyze2 = (hand) => {
   const originalShanten = calRule(hand)
   let analysis = emptyHand()
-  // let bestUkeireImprovment = 0
   if(originalShanten >= 0){
     for (let i = 0; i < 4; i++){
       for (let j = 0; j < FULLSET[i].length; j++){
@@ -167,10 +166,10 @@ const sortFunc = (a, b) => {
   if(aa.shanten == bb.shanten){
     if (aa.speedRef == null || bb.speedRef == null || aa.speedRef == bb.speedRef){
       if(aa.ukeire == bb.ukeire){
-        if(aa.avgWithImprovment == bb.avgWithImprovment){
+        if(aa.avgWithImprovement == bb.avgWithImprovement){
           return aa.avgNextUkeire > bb.avgNextUkeire ? -1 : 1
         }
-        return aa.avgWithImprovment > bb.avgWithImprovment ? -1 : 1
+        return aa.avgWithImprovement > bb.avgWithImprovement ? -1 : 1
       }
       return aa.ukeire > bb.ukeire ? -1 : 1
     }
