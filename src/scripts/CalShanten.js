@@ -287,7 +287,7 @@ const calShantenSapSaamJiu = (hand) => {
 
   // give a pair to the residual hand as we already have a pair in terminals
   hand_[3].push(2)
-  let bestResidualShanten = Math.max(-1, calShantenMenzu(hand, 1)) + 1
+  let bestResidualShanten = Math.max(-1, calShantenMenzu(hand_, 1)) + 1
   hand_[3].pop()
 
   for (let i = 0; i < 4; i++){
@@ -297,7 +297,7 @@ const calShantenSapSaamJiu = (hand) => {
         // give a pair to the residual hand as we already have a pair in terminals
         hand_[3].push(2)
         bestResidualShanten = Math.min(
-          Math.max(-1, calShantenMenzu(hand, 1)), bestResidualShanten
+          Math.max(-1, calShantenMenzu(hand_, 1)), bestResidualShanten
         )
         hand_[i][j]++
         hand_[3].pop()
