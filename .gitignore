@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 /dist
-
+/migrated
 
 # local env files
 .env.local
