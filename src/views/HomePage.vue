@@ -14,10 +14,13 @@
           </span>
         </template>
       </v-select>
-      <p class="ml-auto"><a 
+      <v-btn 
+        class="mx-1 ml-auto" icon color="black"
         href="https://github.com/garyleung142857/cal-shanten-beta"
         target="_blank"
-      > {{ $t('msg.about') }} </a></p>
+      >
+        <v-icon dark> mdi-github </v-icon>
+      </v-btn>
     </v-container>
 
     <InputKeyboard
