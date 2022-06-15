@@ -15,11 +15,12 @@
         </template>
       </v-select>
       <v-btn 
-        class="mx-1 ml-auto" icon color="black"
+        class="mx-1 ml-auto" text
         href="https://github.com/garyleung142857/cal-shanten-beta"
         target="_blank"
       >
-        <v-icon dark> mdi-github </v-icon>
+        <v-icon dark class="mr-2"> mdi-github </v-icon>
+        {{ $t('msg.about') }}
       </v-btn>
     </v-container>
 
