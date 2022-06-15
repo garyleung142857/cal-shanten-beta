@@ -114,6 +114,11 @@ export default {
       queryResults: null
     }
   },
+  watch: {
+    '$i18n.locale'(){
+      window.document.title = this.$t('msg.title')  
+    }
+  },
   methods: {
     handleQuery(){
       if(this.hand.length > 0){
@@ -204,6 +209,9 @@ export default {
     if(q.calc){
       this.handleQuery()
     }
+  },
+  mounted(){
+    window.document.title = this.$t('msg.title')
   }
 }
 </script>
