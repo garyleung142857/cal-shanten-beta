@@ -6,7 +6,18 @@
 
 <script>
   export default{
-    name: 'App'
+    name: 'App',
+    metaInfo: {
+      title: '純牌效率計算機(Beta)',
+      meta: [
+        { 
+          name: 'description', 
+          content: '分析麻雀牌效、向聽、入章、及改良。支援日本麻雀、國標麻雀、港式台灣牌、及多種牌例。'
+            + 'Online tool for analyzing Mahjong tile-efficiency with shanten, tile-acceptance, and improvements. '
+            + 'Support Riichi, MCR, HK style Taiwan and many other variants. '
+        }
+      ]
+    }
   }
 </script>
 
