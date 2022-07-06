@@ -6,9 +6,11 @@
     > {{ title }} </span>
     <template v-for="(tn, idx) in formatted">
       <p class="tile-num text--secondary" :key="idx"> {{ tn[0] }} </p>
-      <TileImage 
+      <TileImage
+        class="tile-array-tile"
         v-for="(t, idx2) in tn[1]" :key="idx+'_'+idx2" 
-        :tileName="t" :text="!small" :small="small" 
+        :tileName="t" :text="!small" :small="small"
+        @tileFaceClick="tileFaceClick"
       />
     </template>
   </v-container>
@@ -25,6 +27,11 @@
       title: {type: String, default: ''},
       tiles: {type: Object, default: null},
       small: {type: Boolean, default: false}
+    },
+    methods: {
+      tileFaceClick(tn){
+        this.$emit('tileClicked', tn)
+      }
     },
     computed: {
       formatted(){
@@ -56,11 +63,11 @@
   }
   .text-label{
     font-size: 12px;
-    line-height: 36px;
+    line-height: 40px;
   }
   .text-label-small{
     font-size: 12px;
-    line-height: 28px;
+    line-height: 36px;
   }
   .tile-num{
     font-size: 12px;
@@ -68,5 +75,8 @@
     font-weight: 900;
     margin-left: 5px;
     margin-right: 1px;
+  }
+  .tile-array-tile:hover{
+    cursor: pointer
   }
 </style>

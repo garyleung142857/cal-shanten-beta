@@ -33,7 +33,7 @@
       @sortHand="sortHand"
     />
     
-    <TileHand :hand="hand" @tileFaceClick="(idx) => removeTile(idx)" />
+    <TileHand class="tile-hand" :hand="hand" @tileFaceClick="(idx) => removeTile(idx)" />
     
     <v-container flat class="d-flex align-self-start pa-0 pb-4" >
       <v-select class="rule-select pa-0 ma-0"
@@ -73,6 +73,7 @@
             :tile="t.tile" 
             :analysis="t.analysis"
             :key="t.tile"
+            @changeTile="changeTile"
           ></SingleResult>
         </template>
       </template>
@@ -133,6 +134,7 @@ export default {
           method: 'tilesQuery',
           args: [this.hand, this.ruleName]
         })
+        window.scrollTo(0, 0)
       }
     },
     sortHand(){
@@ -150,6 +152,16 @@ export default {
     },
     removeTile(idx){
       this.hand = this.hand.filter((item, i) => i !== idx)
+    },
+    changeTile(outTile, inTile){
+      if(outTile !== null){
+        const removeIdx = this.hand.findIndex(t => t === outTile)
+        this.removeTile(removeIdx)
+      }
+      if(inTile !== null){
+        this.inputTile(inTile)
+      }
+      this.handleQuery()
     },
     async copyToClipboard(calc=false){
       try {
@@ -245,6 +257,11 @@ export default {
   @font-face {
     font-family: "Mahjong";
     src: url(../fonts/S-Mahjong.ttf) format("truetype");
+  }
+  .tile-hand{
+    position: sticky;
+    top: 0px;
+    z-index: 4;
   }
 
 </style>

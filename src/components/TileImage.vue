@@ -46,16 +46,16 @@
     margin: 2px;
   }
   .tile-text {
-    height: 36px;
-    font-size: 36px;
+    height: 40px;
+    font-size: 40px;
     line-height: 0.8;
-    margin: 0px;
+    margin: 1px;
   }
   .tile-text-small{
-    height: 28px;
-    font-size: 28px;
+    height: 36px;
+    font-size: 36px;
     line-height: 0.6;
-    margin: 0px;
+    margin: 1px;
   }
   .tile-button {
     height: 60px;
