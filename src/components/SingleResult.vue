@@ -5,24 +5,29 @@
     :style="`border-left: 25px solid ${borderColor}`"
     flat tile
   >
-    <TileImage v-if="tile"
-      :tileName="tile"
-      class="px-1"      
-    />
     <v-card-text class="pa-1 card-text">
-      <div>
+      <div class="d-flex">
+        <TileImage v-if="tile"
+          :tileName="tile"
+          class="pr-2 main-tile"
+          @tileFaceClick="() => chooseTile(null)"
+        />
         {{text}}
       </div>
       <div v-if="Object.keys(analysis.ukeireList).length>0">
+        <v-divider />
         <TileArray
           :title="$t('term.ukeire')"
           :tiles="analysis.ukeireList"
+          @tileClicked="chooseTile"
         />
       </div>
       <div v-if="Object.keys(analysis.improvedUkeire).length>0">
+        <v-divider />
         <TileArray
           :title="$t('term.improvement')"
           :tiles="analysis.improvedUkeire"
+          @tileClicked="chooseTile"
           small
         />
       </div>
@@ -42,6 +47,11 @@
     props: {
       tile: String,
       analysis: Object
+    },
+    methods: {
+      chooseTile(tn){
+        this.$emit('changeTile', this.tile, tn)
+      }
     },
     computed: {
       isTenPai(){
@@ -87,5 +97,8 @@
     color: unset !important;
     font-weight: 500;
     font-size: 18px;
+  }
+  .main-tile:hover{
+    cursor: pointer;
   }
 </style>

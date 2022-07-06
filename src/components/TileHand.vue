@@ -34,6 +34,7 @@
     min-height: 80px;
     justify-content: flex-start;
     align-items: center;
+    border-top: 5px transparent solid;
     border-bottom: 5px rgb(100, 83, 67) solid;
     background-color: rgb(238, 231, 222);
     line-height: 1.15;
