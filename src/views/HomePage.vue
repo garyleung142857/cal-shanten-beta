@@ -115,6 +115,7 @@ export default {
       ],
       overlay: false,
       hand: [],
+      handSinceResult: [],
       ruleName: 'Menzu',
       queryResults: null
     }
@@ -130,6 +131,7 @@ export default {
         this.overlay = true
         this.queryResults = null
         sortHand(this.hand)
+        this.handSinceResult = [...this.hand]
         bgCalc.postMessage({
           method: 'tilesQuery',
           args: [this.hand, this.ruleName]
@@ -154,6 +156,7 @@ export default {
       this.hand = this.hand.filter((item, i) => i !== idx)
     },
     changeTile(outTile, inTile){
+      this.hand = [...this.handSinceResult]
       if(outTile !== null){
         const removeIdx = this.hand.findIndex(t => t === outTile)
         this.removeTile(removeIdx)
