@@ -60,7 +60,14 @@
   .tile-button {
     height: 60px;
     font-size: 60px;
-    padding: 1px;
-    overflow-x: hidden;
+    line-height: 0.6;
+    margin: 3px;
+    padding: 3px 6px;
+    overflow-y: hidden;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .tile-button:active{
+    background-color: #dddddd;
   }
 </style>
