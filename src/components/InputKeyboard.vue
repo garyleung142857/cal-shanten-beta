@@ -2,10 +2,10 @@
   <v-card flat class="input-keyboard d-flex justify-start pa-2 mb-4">
     <v-card flat class="pa-1">
       <v-row v-for="(r, rowid) in curSuitLayout" :key="rowid" dense class="d-flex justify-end">
-        <TileButton
+        <TileImage
           v-for="tn in r" :key="tn"
-          :tileName="tn"
-          @tileClick="inputTile(tn)"
+          :tileName="tn" button
+          @tileFaceClick="inputTile(tn)"
         />
       </v-row>
     </v-card>
@@ -50,12 +50,12 @@
   </v-card>
 </template>
 <script>
-  import TileButton from '@/components/TileButton.vue'
+  import TileImage from '@/components/TileImage.vue'
   import LAYERS from '@/constants/KeyboardPattern.js'
   export default {
     name: 'TileKeyboard',
     components: {
-      TileButton
+      TileImage
     },
     props: {
       ruleName: {type: String}
