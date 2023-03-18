@@ -97,6 +97,7 @@
   .input-keyboard{
     align-self: center;
     border: 3px rgb(139, 122, 105) solid;
+    user-select: none;
   }
   .suit-btn{
     justify-content: center;
