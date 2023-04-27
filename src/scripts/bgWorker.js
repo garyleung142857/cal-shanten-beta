@@ -1,6 +1,6 @@
-import { tilesQuery, suitStrsQuery } from './InOut'
+import { tilesQuery } from './InOut'
 
-const calculations = { tilesQuery, suitStrsQuery }
+const calculations = { tilesQuery }
 
 self.addEventListener('message', (event) => {
   postMessage({key: 'working', value: true })

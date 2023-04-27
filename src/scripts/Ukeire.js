@@ -1,14 +1,12 @@
 import { reduceHand, FULLSET, emptyHand, tileNames } from './Helper.js'
-import { calShantenRule } from './CalShanten.js'
-
+import { RuleSet } from 'mahjong-tile-efficiency'
 
 let calRule
 
-
 const setCalRule = (ruleName) => {
-  calRule = calShantenRule(ruleName)
+  const ruleSet = new RuleSet(ruleName)
+  calRule = ruleSet.calShanten
 }
-
 
 const ukeire1 = (hand) => {
   // for 3n + 1 hands
