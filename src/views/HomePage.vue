@@ -96,7 +96,7 @@
 import SingleResult from '@/components/SingleResult.vue'
 import TileHand from '@/components/TileHand.vue'
 import InputKeyboard from '@/components/InputKeyboard.vue'
-import { sortHand, checkTile, rulesNames } from '@/scripts/cal-shanten/Helper.js'
+import { sortHand, checkTile, rulesNames } from '@/scripts/Helper.js'
 
 const bgCalc = new Worker('@/scripts/bgWorker.js', {type: 'module'})
 

@@ -1,5 +1,5 @@
-import { calUkeire } from './cal-shanten/Ukeire.js';
-import { tilesToHand, suitStrsToHand, checkHand } from './cal-shanten/Helper.js';
+import { calUkeire } from './Ukeire.js';
+import { tilesToHand, suitStrsToHand, checkHand } from './Helper.js';
 
 
 const queryHand = (hand, ruleName) => {
