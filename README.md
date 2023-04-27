@@ -1,49 +1,50 @@
-# 純牌效率計算機 (Beta)
+# Tile Efficiency Calculator (Beta)
 https://mj-efficiency-cal.netlify.app/
 
-Read this in [English](./README.en.md).
-## 功能
-- 支援多種和牌規則（面子手、香港、日本、中庸、國標、台灣、港式台灣）
-- 考慮改良數、及進張後，平均下一向聽進張數
-- 不考慮翻數、防守、牌河、或鳴牌
-- 分享鏈結
- 
-## 數據
+Read this in [Chinese](./README.md).
 
-計數機提供以下數據：
+## Functionalities
+- Support several rule variants (Menzu hand, Hong Kong Old Style, Riichi, Zung Yung, MCR, Taiwan, Hong Kong Taiwan Style).
+- Consider improvements and average acceptance in next shanten.
+- Does not consider hand value, defense, discards, or tile calls.
+- Link Sharing
 
-- **向聽數**：還差多少張牌才可以聽牌
-- **入章數 / 聽牌數**：有多少張未見的牌能令向聽數減一
-- **改良平均**：考慮摸牌後可能的改良，剩餘非入章牌的加權平均。顯示於入章數後的括號內（如有）
-- **下一向聽平均入章**：入章後，下一向聽的加權平均入章數
-- **參考速度**：速度參考指數，只會在手牌一向聽或二向聽時顯示：
-  - 一向聽時，參考速度是手牌在未來十次摸牌內，和牌的機會率約算
-  - 二向聽時，參考速度是手牌在未來三次摸牌內，聽牌的機會率約算
-- **入章列表**：列出入章種類。左上角的數字代表摸到這張入章後，下一向聽的入章數
-- **改良列表**：列出改良種類。左上角的數字代表摸到這張改良後後的入章數。留意：「改良」是單純考慮入章數，而非速度
+## Statistics Provided
 
-## 計算結果的排序
+The Calculator provides the following statistics:
 
-當用家輸入了 3n + 2 張牌時，手牌會處於棄牌階段。計算機會顯示每張棄牌的結果，並按下列方法排序：
+- **Shanten**: Minimum number of tiles drawn in order to reach tenpai.
+- **Acceptance / Waiting**: Number of unseen tiles that advance shanten.
+- **Improvement on Avg**: Consider the improvement of acceptance after drawing a tile. The weighted average of acceptance after drawing an unseen tile that is not considered accepting. This is displayed (if applicable) in bracket after acceptance number.
+- **Accepting tiles next shanten**: The weighted average of acceptance after advancing shanten.
+- **Speed ref**: Speed reference. Only displayed in 1- or 2-Shanten.
+  - In 1-Shanten, speed ref is the approximate probability that the hand will be completed within 10 draws.
+  - In 2-Shanten, speed ref is the approximate probability that the hand will be in tenpai within 3 draws.
+- **Acceptance List**: List the types of tiles that are considered accepting. The number on the top left of tiles represents the acceptance number after drawing that tile.
+- **Improvement List**: List the types of tiles that are considered improvement. The number on the top left of tiles represents that acceptance number after drawing that tile. Note that "improvement" only consider the number of acceptance, not speed reference.
 
-- 向聽數，由小至大，接着
-- 速度(優先)或入章數，由大至小
+## Ranking of results
 
-## 顏色
+When the input consists of 3n + 2 tiles, the hand is in discarding phase. The calculator will display the results of every possible discards, and sort them accordingly:
 
-- 左邊外框反映當前進章數的優劣：紅色為優良、藍色為一般、綠色為差
-- 底色反映平均下一向聽進章數的優劣：粉紅色為優良、淺藍色為一般、綠色為差
-- 如果聽牌，底色會設為黃色
+- Shanten number: in ascending order, then
+- Speed reference (higher priority) or acceptance number: In descending order
 
-## 和牌規則牌型
-- 面子手：只考慮面子雀頭基本形
-- 舊章：面子 + 十三么
-- 日本：面子 + 國士無雙（十三么）+ 七對子（不能重複）
-- 中庸：面子 + 十三么九（十三么）+ 七對子（可重複）
-- 國標：面子 + 十三么 + 七對（可重複）+ 組合龍 + 全不靠
-- 台灣：面子
-- 港式台灣：面子 + 十六不搭 + 嚦咕嚦咕 + 十三么
+## Colors
 
-## 鳴謝
+- Color of the left border reflects the quality of acceptance: Red = Excellent, blue = Average, green = Poor.
+- Background color reflects the quality of average acceptance in the next shanten: Pink = Excellent, light blue = Average, green = Poor.
+- The background will be yellow during tenpai.
 
-- 麻雀牌字體來自[萌娘百科](https://zh.moegirl.org.cn/Template:Mjs)
+## Rule variant
+- Menzu hand: Only considers the basic shape (groups and a pair).
+- Hong Kong Old style: Menzu + Thirteen Orphans
+- Riichi: Menzu + Kokushi Musou (Thirteen Orphans) + Seven Pairs (Disallow identical pairs)
+- Zung Yung: Menzu + 13 Terminals (Thirteen Orphans) + Seven Pairs (Allow identical pairs)
+- MCR: Menzu + Thirteen Orphans + Seven Pairs (Allow identical pairs) + Knitted Straights + Knitted Tiles
+- Taiwan: Menzu
+- Hong Kong Taiwan Style: Menzu + 16 not related + 8 pairs + 13 Terminals
+
+## Acknowledgement
+
+- Tile font is from [萌娘百科](https://zh.moegirl.org.cn/Template:Mjs).
