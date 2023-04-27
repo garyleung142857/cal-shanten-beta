@@ -1,13 +1,16 @@
 # Tile Efficiency Calculator (Beta)
 https://mj-efficiency-cal.netlify.app/
 
-Read this in [Chinese](./README.md).
+Read this in [Chinese](./README.zh.md).
 
 ## Functionalities
 - Support several rule variants (Menzu hand, Hong Kong Old Style, Riichi, Zung Yung, MCR, Taiwan, Hong Kong Taiwan Style).
 - Consider improvements and average acceptance in next shanten.
 - Does not consider hand value, defense, discards, or tile calls.
 - Link Sharing
+
+## Tile Efficiency Node package
+Main calculation code has been moved to a [node package](https://www.npmjs.com/package/mahjong-tile-efficiency). The source code can be seen in this [repository](https://github.com/garyleung142857/mahjong-tile-efficiency).
 
 ## Statistics Provided
 

@@ -1,13 +1,16 @@
 # 純牌效率計算機 (Beta)
 https://mj-efficiency-cal.netlify.app/
 
-Read this in [English](./README.en.md).
+Read this in [English](./README.md).
 ## 功能
 - 支援多種和牌規則（面子手、香港、日本、中庸、國標、台灣、港式台灣）
 - 考慮改良數、及進張後，平均下一向聽進張數
 - 不考慮翻數、防守、牌河、或鳴牌
 - 分享鏈結
  
+## 牌效率Node Package
+主要的計算程序已搬遷到[node package](https://www.npmjs.com/package/mahjong-tile-efficiency)。原始碼則可以到此[repo](https://github.com/garyleung142857/mahjong-tile-efficiency)查閱。
+
 ## 數據
 
 計數機提供以下數據：
