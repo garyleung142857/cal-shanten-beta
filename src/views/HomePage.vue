@@ -16,7 +16,11 @@
       </v-select>
       <v-btn 
         class="mx-1 ml-auto" text
-        href="https://github.com/garyleung142857/cal-shanten-beta"
+        :href="
+          $i18n.locale === 'en' 
+          ? 'https://github.com/garyleung142857/cal-shanten-beta' 
+          : 'https://github.com/garyleung142857/cal-shanten-beta/blob/master/README.zh.md'
+        "
         target="_blank"
       >
         <v-icon dark class="mr-2"> mdi-github </v-icon>
