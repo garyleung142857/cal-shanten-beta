@@ -23,42 +23,19 @@ export const reduceHand = (hand) => {
 
 
 export const FULLSET = [
-  [4, 4, 4, 4, 4, 4, 4, 4, 4],
-  [4, 4, 4, 4, 4, 4, 4, 4, 4],
-  [4, 4, 4, 4, 4, 4, 4, 4, 4],
-  [4, 4, 4, 4, 4, 4, 4]
+  Array(9).fill(4),
+  Array(9).fill(4),
+  Array(9).fill(4),
+  Array(7).fill(4)
 ]
 
 
 export const emptyHand = () => [
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null],
+  Array(9).fill(null),
+  Array(9).fill(null),
+  Array(9).fill(null),
+  Array(7).fill(null),
 ]
-
-
-export const suitStrToSuit = (suitStr, isHonour) => {
-  let len = isHonour ? 7 : 9
-  let suit = new Array(len).fill(0)
-  for (let j = 0; j < suitStr.length; j++){
-    let c = parseInt(suitStr[j])
-    if (c >= 1 && c <= len){
-      suit[c - 1]++
-    }
-  }
-  return suit
-}
-
-
-export const suitStrsToHand = (suitsStrArr) => {
-  let hand = []
-  for (let i = 0; i < 4; i++){
-    const isHonour = (i == 3)
-    hand.push(suitStrToSuit(suitsStrArr[i], isHonour))
-  }
-  return hand
-}
 
 
 export const tilesToHand = (tilesArr) => {

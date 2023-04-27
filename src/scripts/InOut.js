@@ -1,5 +1,5 @@
 import { calUkeire } from './Ukeire.js';
-import { tilesToHand, suitStrsToHand, checkHand } from './Helper.js';
+import { tilesToHand, checkHand } from './Helper.js';
 
 
 const queryHand = (hand, ruleName) => {
@@ -20,13 +20,6 @@ const queryHand = (hand, ruleName) => {
 
 export const tilesQuery = (tiles, ruleName) => {
   const hand = tilesToHand(tiles)
-  const result = queryHand(hand, ruleName)
-  return result
-}
-
-
-export const suitStrsQuery = (suitStrs, ruleName) => {
-  const hand = suitStrsToHand(suitStrs)
   const result = queryHand(hand, ruleName)
   return result
 }
