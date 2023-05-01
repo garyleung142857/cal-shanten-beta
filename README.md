@@ -1,4 +1,5 @@
 # Short-Tile Sanma Calculator (Beta)
+https://mj-onelesstile-cal.netlify.app/?lang=en
 
 Read this in [Chinese](./README.zh.md).
 

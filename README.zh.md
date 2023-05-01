@@ -1,4 +1,5 @@
 # 少牌三麻計算機
+https://mj-onelesstile-cal.netlify.app
 
 Read this in [English](./README.md).
 ## 功能

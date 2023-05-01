@@ -31,8 +31,8 @@
           class="mx-1 px-2" text
           :href="
             $i18n.locale === 'en' 
-            ? 'https://mj-efficiency-cal.netlify.app' 
-            : 'https://mj-efficiency-cal.netlify.app/?lang=en'
+            ? 'https://mj-efficiency-cal.netlify.app/?lang=en' 
+            : 'https://mj-efficiency-cal.netlify.app'
           "
           target="_blank"
         >
