@@ -1,6 +1,6 @@
 const en = {
   msg: {
-    title: 'Tile Efficiency Calculator (Beta)',
+    title: 'Short-Tile Sanma Calculator',
     about: 'About',
     copyLink: 'Copy Link',
     copyLinkWithResult: 'Copy Link w/ result',

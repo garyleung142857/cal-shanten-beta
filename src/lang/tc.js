@@ -1,6 +1,6 @@
 const tc = {
   msg: {
-    title: '純牌效率計算機(Beta)',
+    title: '少牌三麻計算機(Beta)',
     about: '關於',
     copyLink: '複製鏈結',
     copyLinkWithResult: '複製鏈結(顯示結果)',
