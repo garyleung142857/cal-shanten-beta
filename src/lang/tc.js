@@ -1,7 +1,8 @@
 const tc = {
   msg: {
-    title: '少牌三麻計算機(Beta)',
+    title: '少牌三麻計算機',
     about: '關於',
+    main: '正常麻雀',
     copyLink: '複製鏈結',
     copyLinkWithResult: '複製鏈結(顯示結果)',
     copied: '己複製',

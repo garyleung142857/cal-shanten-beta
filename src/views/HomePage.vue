@@ -14,18 +14,31 @@
           </span>
         </template>
       </v-select>
-      <v-btn 
-        class="mx-1 ml-auto" text
-        :href="
-          $i18n.locale === 'en' 
-          ? 'https://github.com/garyleung142857/cal-shanten-beta' 
-          : 'https://github.com/garyleung142857/cal-shanten-beta/blob/master/README.zh.md'
-        "
-        target="_blank"
-      >
-        <v-icon dark class="mr-2"> mdi-github </v-icon>
-        {{ $t('msg.about') }}
-      </v-btn>
+      <div class="mx-1 ml-auto">
+        <v-btn 
+          class="mx-1 px-2" text
+          :href="
+            $i18n.locale === 'en' 
+            ? 'https://github.com/garyleung142857/cal-shanten-beta/tree/one-less-tile' 
+            : 'https://github.com/garyleung142857/cal-shanten-beta/blob/one-less-tile/README.zh.md'
+          "
+          target="_blank"
+        >
+          <v-icon dark class="mr-2"> mdi-github </v-icon>
+          {{ $t('msg.about') }}
+        </v-btn>
+        <v-btn 
+          class="mx-1 px-2" text
+          :href="
+            $i18n.locale === 'en' 
+            ? 'https://mj-efficiency-cal.netlify.app' 
+            : 'https://mj-efficiency-cal.netlify.app/?lang=en'
+          "
+          target="_blank"
+        >
+          {{ '🀄' }}{{ $t('msg.main') }}
+        </v-btn>
+      </div>
     </v-container>
 
     <InputKeyboard

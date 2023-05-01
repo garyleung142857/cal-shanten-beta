@@ -2,6 +2,7 @@ const en = {
   msg: {
     title: 'Short-Tile Sanma Calculator',
     about: 'About',
+    main: 'Main',
     copyLink: 'Copy Link',
     copyLinkWithResult: 'Copy Link w/ result',
     copied: 'Link Copied',
