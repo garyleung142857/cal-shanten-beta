@@ -38,7 +38,8 @@ const tc = {
     man: '萬子',
     pin: '筒子',
     sou: '索子',
-    zi: '番子'
+    zi: '番子',
+    manzi: '萬子 / 番子'
   },
   errorMsg: {
     handLen: '請檢查：手牌有{0}隻牌。',

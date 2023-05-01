@@ -62,7 +62,7 @@ export const tilesToHand = (tilesArr) => {
 export const checkHand = (hand, ruleName) =>{
   const handLen = hand.reduce(
     (a, b) => a.concat(b), []
-  ).reduce((a, b) => a + b, 0)
+  ).reduce((a, b) => a + b, 1)
   if (handLen % 3 == 0 || handLen > rulesMax[ruleName]){
     throw {error: 'handLen', len: handLen}
   } else {

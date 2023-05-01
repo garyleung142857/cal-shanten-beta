@@ -42,7 +42,8 @@ const en = {
     man: 'man',
     pin: 'pin',
     sou: 'sou',
-    zi: 'zi'
+    zi: 'zi',
+    manzi: 'man / zi'
   },
   tiles: {
     t1m: '1 Man',

@@ -1,9 +1,3 @@
-const MAN = [
-  ['7m', '8m', '9m'],
-  ['4m', '5m', '6m'],
-  ['1m', '2m', '3m']
-]
-
 const PIN = [
   ['7p', '8p', '9p'],
   ['4p', '5p', '6p'],
@@ -16,17 +10,16 @@ const SOU = [
   ['1s', '2s', '3s']
 ]
 
-const ZI = [
+const MANZI = [
   ['5z', '6z', '7z'],
-  ['3z', '4z'],
-  ['1z', '2z']
+  ['9m', '3z', '4z'],
+  ['1m', '1z', '2z']
 ]
 
 const LAYERS = {
-  man: MAN,
   pin: PIN,
   sou: SOU,
-  zi: ZI
+  manzi: MANZI
 }
 
 export default LAYERS

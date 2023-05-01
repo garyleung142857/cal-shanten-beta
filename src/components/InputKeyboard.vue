@@ -11,32 +11,26 @@
     </v-card>
     <v-card flat class="pa-1 d-flex flex-column">
       <v-row dense class="d-flex" align-content="stretch">
-        <v-btn
-          class="suit-btn pa-1 ma-1" 
-          @click="changeSuit('man')"
-          :color="curSuit == 'man' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
-          depressed
-        > {{ $t('suits.man') }} </v-btn>
         <v-btn 
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('pin')"
           :color="curSuit == 'pin' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
         > {{ $t('suits.pin') }} </v-btn>
-      </v-row>
-      <v-row dense class="d-flex">
         <v-btn
           class="suit-btn pa-1 ma-1"
           @click="changeSuit('sou')"
           :color="curSuit == 'sou' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
         > {{ $t('suits.sou') }} </v-btn>
+      </v-row>
+      <v-row dense class="d-flex" align-content="stretch">
         <v-btn 
-          class="suit-btn pa-1 ma-1"
-          @click="changeSuit('zi')"
-          :color="curSuit == 'zi' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
+          class="flex-grow-1 suit-btn pa-1 ma-1"
+          @click="changeSuit('manzi')"
+          :color="curSuit == 'manzi' ? 'yellow lighten-2' : 'blue-grey lighten-4'"
           depressed
-        > {{ $t('suits.zi') }}</v-btn>
+        > {{ $t('suits.manzi') }}</v-btn>
       </v-row>
       <v-row dense class="d-flex">
         <v-btn class="suit-btn pa-1 ma-1" outlined color="deep-orange" @click="removeLastTile()"> {{ $t('keyboard.cancel') }} </v-btn>
@@ -57,12 +51,9 @@
     components: {
       TileImage
     },
-    props: {
-      ruleName: {type: String}
-    },
     data(){
       return {
-        curSuit: 'man'
+        curSuit: 'pin'
       }
     },
     computed: {

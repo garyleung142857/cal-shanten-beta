@@ -2,14 +2,13 @@ import { calUkeire } from './Ukeire.js';
 import { tilesToHand, checkHand } from './Helper.js';
 
 
-const queryHand = (hand, ruleName) => {
+const queryHand = (hand) => {
   let state = null
   try{
-    state = checkHand(hand, ruleName)
+    state = checkHand(hand)
   } catch (e) {
     return { error: e }
   }
-  calUkeire.setCalRule(ruleName)
   if (state == 'To draw'){
     return calUkeire.analyze1(hand)
   } else {
@@ -18,8 +17,8 @@ const queryHand = (hand, ruleName) => {
 }
 
 
-export const tilesQuery = (tiles, ruleName) => {
+export const tilesQuery = (tiles) => {
   const hand = tilesToHand(tiles)
-  const result = queryHand(hand, ruleName)
+  const result = queryHand(hand)
   return result
 }

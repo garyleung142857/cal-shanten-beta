@@ -1,18 +1,37 @@
 import { reduceHand, FULLSET, emptyHand, tileNames } from './Helper.js'
-import { RuleSet } from 'mahjong-tile-efficiency'
+import { RuleSet, setHandLength } from 'mahjong-tile-efficiency'
 
-let calRule
+// Sanma rule that allow indentical pair 7 pair is effectively Zung Jung
+// Use 12 / 13 tiles with a joker to calculate shanten, 
+// is basically calculating with the 12 / 13 tiles, and minus 1
 
-const setCalRule = (ruleName) => {
-  const ruleSet = new RuleSet(ruleName)
-  calRule = ruleSet.calShanten
+const newHandLengthFunc = (hand) => {
+  let s = 1
+  hand.forEach(suit => {
+    suit.forEach(tileCount => {
+      s += tileCount
+    })
+  })
+  return s
+}
+
+setHandLength(newHandLengthFunc)
+
+let ruleset = new RuleSet('ZungJung')
+let calRule = (hand) => {
+  for (let i = 1; i <= 7; i++) {
+    if (hand[0][i] > 0) {
+      return Infinity
+    }
+  }
+  return ruleset.calShanten(hand) - 1
 }
 
 const ukeire1 = (hand) => {
   // for 3n + 1 hands
   let ukeireList = []
   let totalUkeire = 0
-  const originalShanten = calRule(hand)  // at least 0, since not completed
+  const originalShanten = Math.max(calRule(hand), 0)  // at least 0, since not completed
 
   for (let i = 0; i < 4; i++){
     for (let j = 0; j < FULLSET[i].length; j++){
@@ -179,7 +198,6 @@ const sortFunc = (a, b) => {
 }
 
 export const calUkeire = {
-  setCalRule,
   ukeire1,
   ukeire2,
   analyze1,

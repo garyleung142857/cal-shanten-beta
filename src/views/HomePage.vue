@@ -29,7 +29,6 @@
     </v-container>
 
     <InputKeyboard
-      :ruleName="ruleName"
       @inputTile="(tileName) => inputTile(tileName)"
       @removeLastTile="removeLastTile"
       @clearAll="clearAll"
@@ -40,18 +39,6 @@
     <TileHand class="tile-hand" :hand="hand" @tileFaceClick="(idx) => removeTile(idx)" />
     
     <v-container flat class="d-flex align-self-start pa-0 pb-4" >
-      <v-select class="rule-select pa-0 ma-0"
-        v-model="ruleName"
-        :items="r"
-        :label="$t('rules.rule')"
-        dense hide-details
-      >
-        <template v-slot:selection="{ item }">
-          <span class="d-flex justify-center" style="width: 100%;">
-            {{ item.text }}
-          </span>
-        </template>
-      </v-select>
       <v-btn
         text tile small outlined class="px-1 mx-1 ml-auto link-btn"
         @click="copyToClipboard(false)"
@@ -100,7 +87,7 @@
 import SingleResult from '@/components/SingleResult.vue'
 import TileHand from '@/components/TileHand.vue'
 import InputKeyboard from '@/components/InputKeyboard.vue'
-import { sortHand, checkTile, rulesNames } from '@/scripts/Helper.js'
+import { sortHand, checkTile } from '@/scripts/Helper.js'
 
 const bgCalc = new Worker('@/scripts/bgWorker.js', {type: 'module'})
 
@@ -120,7 +107,6 @@ export default {
       overlay: false,
       hand: [],
       handSinceResult: [],
-      ruleName: 'Menzu',
       queryResults: null
     }
   },
@@ -138,7 +124,7 @@ export default {
         this.handSinceResult = [...this.hand]
         bgCalc.postMessage({
           method: 'tilesQuery',
-          args: [this.hand, this.ruleName]
+          args: [this.hand]
         })
         window.scrollTo(0, 0)
       }
@@ -185,14 +171,6 @@ export default {
     }
   },
   computed:{
-    r(){
-      return rulesNames.map(rn => {
-        return {
-          text: this.$t(`rules.${rn.value}`),
-          value: rn.value
-        }
-      })
-    },
     tiles(){
       return this.queryResults ? this.queryResults['tiles'] || [{tile: null, analysis: this.queryResults}] : null
     },
@@ -211,7 +189,6 @@ export default {
     urlQuery(){
       return {
         lang: this.$i18n.locale,
-        rn: this.ruleName,
         ts: this.hand.reduce((a, b) => a + b, '')
       }
     }
@@ -227,7 +204,6 @@ export default {
   beforeMount(){
     var q = this.$route.query
     this.$i18n.locale = q.lang || 'tc'
-    this.ruleName = q.rn || 'Menzu'
     this.hand = q.ts ? q.ts.match(/.{1,2}/g).filter(tileName => checkTile(tileName)) : []
     if(q.calc){
       this.handleQuery()
