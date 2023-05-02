@@ -59,11 +59,11 @@ export const tilesToHand = (tilesArr) => {
   return hand
 }
 
-export const checkHand = (hand, ruleName) =>{
+export const checkHand = (hand) =>{
   const handLen = hand.reduce(
     (a, b) => a.concat(b), []
-  ).reduce((a, b) => a + b, 1)
-  if (handLen % 3 == 0 || handLen > rulesMax[ruleName]){
+  ).reduce((a, b) => a + b, 0)
+  if (handLen % 3 == 2 || handLen > 13){
     throw {error: 'handLen', len: handLen}
   } else {
     for (let i = 0; i < 4; i++){
@@ -74,7 +74,7 @@ export const checkHand = (hand, ruleName) =>{
       }
     }
   }
-  if (handLen % 3 == 1){
+  if (handLen % 3 == 0){
     return 'To draw'
   } else {
     return 'To play'
@@ -95,24 +95,4 @@ export const sortHand = (hand) => {
 
 export const checkTile = (tileName) => {
   return tileNames.some(suit => suit.includes(tileName))
-}
-
-export const rulesNames = [
-  {text: '面子', value: 'Menzu'},
-  {text: '舊章', value: 'HK'},
-  {text: '日本', value: 'Riichi'},
-  {text: '中庸', value: 'ZungJung'},
-  {text: '國標', value: 'MCR'},
-  {text: '台灣', value: 'Taiwan'},
-  {text: '港台', value: 'HKTW'}
-]
-
-export const rulesMax = {
-  'Menzu': Infinity,
-  'HK': 14,
-  'Riichi': 14,
-  'ZungJung': 14,
-  'MCR': 14,
-  'Taiwan': 17,
-  'HKTW': 17
 }
