@@ -5,6 +5,13 @@ export const tileNames = [
   ['1z', '2z', '3z', '4z', '5z', '6z', '7z'],
 ]
 
+const tileIndex = {}
+for (let i = 0; i < 4; i++) {
+  for (let j = 0; j < tileNames[i].length; j++) {
+    tileIndex[tileNames[i][j]] = [i, j]
+  }
+}
+
 
 export const reduceHand = (hand) => {
   let resList = []
@@ -39,46 +46,34 @@ export const emptyHand = () => [
 
 
 export const tilesToHand = (tilesArr) => {
-  let hand = [
+  const hand = [
     new Array(9).fill(0),
     new Array(9).fill(0),
     new Array(9).fill(0),
     new Array(7).fill(0),
   ]
-
-  for (let i = 0; i < 4; i++){
-    for (let j = 0; j < hand[i].length; j++){
-      for (let tileName of tilesArr){
-        if (tileName == tileNames[i][j]){
-          hand[i][j]++
-        }
-      }
-    }
+  for (let tileName of tilesArr) {
+    const [i, j] = tileIndex[tileName]
+    hand[i][j]++
   }
-
   return hand
 }
 
-export const checkHand = (hand, ruleName) =>{
-  const handLen = hand.reduce(
-    (a, b) => a.concat(b), []
-  ).reduce((a, b) => a + b, 0)
-  if (handLen % 3 == 0 || handLen > rulesMax[ruleName]){
-    throw {error: 'handLen', len: handLen}
-  } else {
-    for (let i = 0; i < 4; i++){
-      for (let j = 0; j < hand[i].length; j++){
-        if (hand[i][j] > 4){
-          throw {error: 'extraCopies', tile: tileNames[i][j], count: hand[i][j]}
-        }
+export const checkHand = (hand, ruleName) => {
+  let handLen = 0
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < hand[i].length; j++) {
+      const c = hand[i][j]
+      handLen += c
+      if (c > 4) {
+        throw {error: 'extraCopies', tile: tileNames[i][j], count: c}
       }
     }
   }
-  if (handLen % 3 == 1){
-    return 'To draw'
-  } else {
-    return 'To play'
+  if (handLen % 3 == 0 || handLen > rulesMax[ruleName]) {
+    throw {error: 'handLen', len: handLen}
   }
+  return handLen % 3 == 1 ? 'To draw' : 'To play'
 }
 
 export const sortHand = (hand) => {
