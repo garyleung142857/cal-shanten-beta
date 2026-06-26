@@ -264,6 +264,7 @@ export default {
   @font-face {
     font-family: "Mahjong";
     src: url(../fonts/S-Mahjong.ttf) format("truetype");
+    font-display: block;
   }
   .tile-hand{
     position: sticky;
