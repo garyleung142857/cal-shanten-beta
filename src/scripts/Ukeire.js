@@ -2,7 +2,8 @@ import { reduceHand, FULLSET, emptyHand, tileNames } from './Helper.js'
 import { RuleSet } from 'mahjong-tile-efficiency'
 
 let calRule
-const cache = new Map()
+const calRuleCache = new Map()
+const ukeire1Cache = new Map()
 
 const serialize = (hand) => {
   let key = ''
@@ -17,19 +18,23 @@ const serialize = (hand) => {
 const setCalRule = (ruleName) => {
   const ruleSet = new RuleSet(ruleName)
   calRule = ruleSet.calShanten
-  cache.clear()
+  calRuleCache.clear()
+  ukeire1Cache.clear()
 }
 
 const calRuleCached = (hand) => {
   const key = serialize(hand)
-  if (cache.has(key)) return cache.get(key)
+  if (calRuleCache.has(key)) return calRuleCache.get(key)
   const result = calRule(hand)
-  cache.set(key, result)
+  calRuleCache.set(key, result)
   return result
 }
 
 const ukeire1 = (hand) => {
   // for 3n + 1 hands
+  const key = serialize(hand)
+  if (ukeire1Cache.has(key)) return ukeire1Cache.get(key)
+
   let ukeireList = []
   let totalUkeire = 0
   const originalShanten = calRuleCached(hand)  // at least 0, since not completed
@@ -48,11 +53,13 @@ const ukeire1 = (hand) => {
       }
     }
   }
-  return {
+  const result = {
     ukeireList: ukeireList,
     totalUkeire: totalUkeire,
     shanten: originalShanten,
   }
+  ukeire1Cache.set(key, result)
+  return result
 }
 
 
