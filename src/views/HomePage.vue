@@ -72,11 +72,10 @@
     <template v-if="queryResults && !error">
       <h3> {{ $t('msg.results' )}}</h3>
       <template v-if="queryResults.shanten>=0">
-        <template v-for="t in tiles">
+        <template v-for="t in tiles" :key="t.tile">
           <SingleResult
             :tile="t.tile" 
             :analysis="t.analysis"
-            :key="t.tile"
             @changeTile="changeTile"
           ></SingleResult>
         </template>
