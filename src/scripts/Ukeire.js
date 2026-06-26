@@ -2,24 +2,44 @@ import { reduceHand, FULLSET, emptyHand, tileNames } from './Helper.js'
 import { RuleSet } from 'mahjong-tile-efficiency'
 
 let calRule
+const cache = new Map()
+
+const serialize = (hand) => {
+  let key = ''
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < hand[i].length; j++) {
+      key += hand[i][j]
+    }
+  }
+  return key
+}
 
 const setCalRule = (ruleName) => {
   const ruleSet = new RuleSet(ruleName)
   calRule = ruleSet.calShanten
+  cache.clear()
+}
+
+const calRuleCached = (hand) => {
+  const key = serialize(hand)
+  if (cache.has(key)) return cache.get(key)
+  const result = calRule(hand)
+  cache.set(key, result)
+  return result
 }
 
 const ukeire1 = (hand) => {
   // for 3n + 1 hands
   let ukeireList = []
   let totalUkeire = 0
-  const originalShanten = calRule(hand)  // at least 0, since not completed
+  const originalShanten = calRuleCached(hand)  // at least 0, since not completed
 
   for (let i = 0; i < 4; i++){
     for (let j = 0; j < FULLSET[i].length; j++){
       const remainingCount = FULLSET[i][j] - hand[i][j]
       if (remainingCount > 0){
         hand[i][j]++
-        const newShanten = calRule(hand)
+        const newShanten = calRuleCached(hand)
         hand[i][j]--
         if (newShanten < originalShanten){
           ukeireList.push(tileNames[i][j])
@@ -39,7 +59,7 @@ const ukeire1 = (hand) => {
 const ukeire2 = (hand) => {
   // for 3n + 2 hands
   // consider every tile, even if shanten increases
-  const originalShanten = calRule(hand)
+  const originalShanten = calRuleCached(hand)
   // let ukeires = emptyHand()
   let bestUkeire = 0
   
@@ -132,7 +152,7 @@ const analyze1 = (hand) => {
 
 
 const analyze2 = (hand) => {
-  const originalShanten = calRule(hand)
+  const originalShanten = calRuleCached(hand)
   let analysis = emptyHand()
   if(originalShanten >= 0){
     for (let i = 0; i < 4; i++){
